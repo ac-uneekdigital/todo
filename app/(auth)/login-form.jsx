@@ -32,7 +32,7 @@ export default function AuthForm({ handleSubmit }) {
           required
         />
       </div>
-      <button className="btn-outline-secondary w-full hover:bg-slate-400 hover:text-dark">
+      <button className="border-2 border-black rounded-lg p-4 w-full hover:bg-slate-400 hover:text-dark">
         Log In
       </button>
     </form>
