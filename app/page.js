@@ -1,6 +1,10 @@
+'use client'
+
 import Image from 'next/image'
+import { useState, useEffect } from 'react'
 
 export default function Home() {
+
   return (
     <main className="flex flex-col h-screen items-center p-16">
       <h1 className='text-slate-900 font-bold text-4xl'>Todo&apos;s</h1>
