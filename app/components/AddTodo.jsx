@@ -4,12 +4,12 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 import { useState } from "react";
 
-function AddTodo({ userID }) {
+function AddTodo({ authUser }) {
   const supabase = createClientComponentClient();
   async function handleClick(e) {
     e.preventDefault();
     const { error } = await supabase.from("todos").insert({
-      user_id: { userID },
+      user_id: authUser.id,
       task: "Example",
       is_complete: false,
       inserted_at: new Date().toISOString(),

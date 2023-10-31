@@ -14,7 +14,9 @@ export default async function Home() {
   const supabase = createServerComponentClient({ cookies });
   const { data } = await supabase.auth.getSession();
   const user = data?.session?.user.user_metadata;
-  const userID = data.session?.user.id
+  const authUser = data.session?.user
+
+  console.log(authUser)
 
   if (data.session) {
 
@@ -24,7 +26,7 @@ export default async function Home() {
         <main className="flex h-[calc(100vh-70px)] justify-between items-center w-10/12 gap-3 mx-auto p-8">
           <div className="h-auto w-1/3 flex flex-col items-center gap-4 bg-indigo-100 dark:bg-slate-800 rounded-lg p-8">
             <h2 className="text-3xl">Add Todo</h2>
-            <AddTodo user={user} userID={userID} />
+            <AddTodo user={user} authUser={authUser} />
           </div>
           <div className="w-1/2 flex h-[600px] justify-center bg-indigo-100 dark:bg-slate-800 rounded-lg p-2 overflow-y-auto overflow-hidden">
             <div className="min-h-[6000px] w-full bg-black">
