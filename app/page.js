@@ -4,12 +4,10 @@ import { redirect } from "next/navigation";
 
 import Image from 'next/image'
 
-
-
 export default async function Home() {
   const supabase = createServerComponentClient({ cookies });
   const { data } = await supabase.auth.getSession();
-  const user = data?.session?.user;
+  const user = data?.session?.user.user_metadata;
 
   if (data.session) {
 
@@ -27,7 +25,7 @@ export default async function Home() {
             >
             </input>
           </form>
-
+          {user && (<p className="text-black">{user.full_name}</p>)}
         </div>
       </main>
     )

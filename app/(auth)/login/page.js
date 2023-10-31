@@ -7,7 +7,7 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import LoginForm from "../login-form";
 
 //icons
-
+import { BiLogoGoogle } from 'react-icons/bi'
 
 export default function Login() {
     const router = useRouter();
@@ -18,26 +18,6 @@ export default function Login() {
         setIsClient(true);
     }, []);
     if (!isClient) return null;
-
-    const handleSubmit = async (e, email, password) => {
-        e.preventDefault();
-        setError("");
-
-        const supabase = createClientComponentClient();
-
-        const { error } = await supabase.auth.signInWithPassword({
-            email,
-            password,
-        });
-        if (error) {
-            setError(error.message);
-        }
-        if (!error) {
-            router.refresh();
-            router.push("/dashboard");
-        }
-    };
-    [];
 
     const signInWithGoogle = async () => {
         const supabase = createClientComponentClient();
@@ -61,19 +41,15 @@ export default function Login() {
 
     };[];
 
-
-
     return (
         <>
             <div className="login-bg -z-50"></div >
-            <div className="h-[calc(100vh-70px)] w-full flex items-center justify-center z-50">
+            <div className="h-[calc(100vh-70px)] w-full flex items-center justify-center">
                 <div className="w-25 p-12 bg-dark/95 rounded-xl">
-                    <div className="w-full flex justify-center">
-                        <button className="flex items-center gap-3 text-black border-2 border-black p-4 rounded-xl" onClick={signInWithGoogle}>Log In with google</button>
+                    <div className="w-full flex flex-col items-center justify-center">
+                        <h1 className="text-5xl font-black pb-4">Todo-App</h1>
+                        <button className="flex items-center gap-3 text-black border-2 border-black p-4 rounded-xl" onClick={signInWithGoogle}><BiLogoGoogle size={32} />Sign Up or Log In with google</button>
                     </div>
-                    <div className="border-b-4 border-slate-50 py-4"></div>
-                    <p className="text-center py-8 text-black text-base">or log in with your email below</p>
-                    <LoginForm handleSubmit={handleSubmit} />
                     {error && <p className="error">{error}</p>}
                 </div>
             </div>
