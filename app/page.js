@@ -16,8 +16,6 @@ export default async function Home() {
   const user = data?.session?.user.user_metadata;
   const authUser = data.session?.user
 
-  console.log(authUser)
-
   if (data.session) {
 
     return (

@@ -1,19 +1,22 @@
 "use client";
 
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { useRouter } from "next/navigation";
 
 import { useState } from "react";
 
 function AddTodo({ authUser }) {
   const supabase = createClientComponentClient();
+  const router = useRouter();
   async function handleClick(e) {
     e.preventDefault();
     const { error } = await supabase.from("todos").insert({
       user_id: authUser.id,
-      task: "Example",
+      task: "Example 16",
       is_complete: false,
       inserted_at: new Date().toISOString(),
     });
+    router.refresh();
   }
 
   return (
