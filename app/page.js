@@ -15,23 +15,15 @@ export default async function Home() {
     return (
       <>
         <Navbar user={user} />
-        <main className="flex flex-col h-screen items-center p-16">
-          <h1 className='text-slate-900 font-bold text-4xl'>Todo&apos;s</h1>
-          <div className='h-auto w-6/12 m-4 bg-slate-200 rounded-lg shadow-md p-8'>
-            <form
-              className='flex justify-center'>
-              <input
-                type="text"
-                name="search"
-                className="h-12 w-11/12 bg-white rounded-lg indent-3"
-                placeholder="search for a todo"
-              >
-              </input>
-            </form>
-            {user && (<p className="text-black">{user.full_name}</p>)}
+        <main className="flex h-[calc(100vh-70px)] w-10/12 gap-3 mx-auto p-8">
+          <div className="w-1/2 flex justify-center bg-slate-200 rounded-lg p-2">
+            <h2>Add Todo</h2>
           </div>
-
-        </main>  </>
+          <div className="w-1/2 flex justify-center bg-slate-300 rounded-lg p-2">
+            <h2>Todos</h2>
+          </div>
+        </main>
+      </>
     )
   }
   else {
