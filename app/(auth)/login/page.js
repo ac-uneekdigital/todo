@@ -8,7 +8,6 @@ import LoginForm from "../login-form";
 
 //icons
 import { BiLogoGoogle } from 'react-icons/bi'
-import Navbar from "@/app/components/Navbar";
 
 export default function Login() {
     const router = useRouter();
@@ -44,9 +43,7 @@ export default function Login() {
 
     return (
         <>
-            <Navbar />
-            <div className="login-bg -z-50"></div >
-            <div className="h-[calc(100vh-150px)] w-full flex items-center justify-center">
+            <div className="h-[calc(100vh)] bg-indigo-100 w-full flex items-center justify-center">
                 <div className="w-25 p-12 bg-indigo-500/95 rounded-xl shadow-md">
                     <div className="w-full flex flex-col items-center justify-center">
                         <h1 className="text-5xl text-white font-black pb-4">Todo-App</h1>
