@@ -1,5 +1,6 @@
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
+import UpdateTodo from "./UpdateTodo";
 
 async function TodoList() {
   "dyncamic";
@@ -27,12 +28,7 @@ async function TodoList() {
               className="relative flex justify-between items-center rounded-md bg-red-300 h-20 w-full p-1"
             >
               <p className="text-2xl">{todo.task}</p>
-              <form>
-                <input
-                  type="checkbox"
-                  className="h-12 w-12 rounded-full accent-indigo-400 text-indigo-600"
-                ></input>
-              </form>
+              <UpdateTodo todo={todo.id} />
             </div>
           ))}
         </div>

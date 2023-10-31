@@ -8,11 +8,14 @@ import { useState } from "react";
 function AddTodo({ authUser }) {
   const supabase = createClientComponentClient();
   const router = useRouter();
+
+  const [task, setTask] = useState("");
+
   async function handleClick(e) {
     e.preventDefault();
     const { error } = await supabase.from("todos").insert({
       user_id: authUser.id,
-      task: "Example 16",
+      task: task,
       is_complete: false,
       inserted_at: new Date().toISOString(),
     });
@@ -24,9 +27,10 @@ function AddTodo({ authUser }) {
       <input
         className="h-12 rounded-md text-center w-full"
         type="text"
-        name="title"
-        placeholder="todo title"
-        value="example"
+        name="task"
+        placeholder="task"
+        value={task}
+        onChange={(e) => setTask(e.target.value)}
       ></input>
       <button
         onClick={handleClick}
