@@ -2,25 +2,34 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-import Image from 'next/image'
+//Components
 import Navbar from "./components/Navbar";
+//Todo Components
+import TodoList from "./components/TodoList";
+import AddTodo from "./components/AddTodo";
+import UpdateTodo from "./components/UpdateTodo";
+import DestroyTodo from "./components/DestroyTodo";
 
 export default async function Home() {
   const supabase = createServerComponentClient({ cookies });
   const { data } = await supabase.auth.getSession();
   const user = data?.session?.user.user_metadata;
+  const userID = data.session?.user.id
 
   if (data.session) {
 
     return (
       <>
         <Navbar user={user} />
-        <main className="flex h-[calc(100vh-70px)] w-10/12 gap-3 mx-auto p-8">
-          <div className="w-1/2 flex justify-center bg-slate-200 rounded-lg p-2">
-            <h2>Add Todo</h2>
+        <main className="flex h-[calc(100vh-70px)] justify-between items-center w-10/12 gap-3 mx-auto p-8">
+          <div className="h-auto w-1/3 flex flex-col items-center gap-4 bg-indigo-100 dark:bg-slate-800 rounded-lg p-8">
+            <h2 className="text-3xl">Add Todo</h2>
+            <AddTodo user={user} userID={userID} />
           </div>
-          <div className="w-1/2 flex justify-center bg-slate-300 rounded-lg p-2">
-            <h2>Todos</h2>
+          <div className="w-1/2 flex h-[600px] justify-center bg-indigo-100 dark:bg-slate-800 rounded-lg p-2 overflow-y-auto overflow-hidden">
+            <div className="min-h-[6000px] w-full bg-black">
+              <TodoList user={user} />
+            </div>
           </div>
         </main>
       </>

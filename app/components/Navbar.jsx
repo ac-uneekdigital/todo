@@ -10,8 +10,8 @@ import { BiMoon, BiSun, BiPlus } from "react-icons/bi";
 function Navbar({ user }) {
   const avatar = user.avatar_url;
   return (
-    <nav className="flex justify-between items-center p-8 h-[70px] bg-indigo-100 dark:bg-slate-900 shadow-sm">
-      <h1 className="text-2xl text-indigo-900 dark:text-slate-400 font-black">
+    <nav className="flex justify-between items-center p-8 h-[70px] bg-indigo-100 dark:bg-gray-950 shadow-sm">
+      <h1 className="text-2xl text-black dark:text-slate-400 font-black">
         Todo&apos;s
       </h1>
       <div className="flex gap-2">

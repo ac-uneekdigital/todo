@@ -19,13 +19,13 @@ const ThemeButton = () => {
     <button
       aria-label="Toggle Dark Mode"
       type="button"
-      className="flex items-center justify-center rounded-lg p-2 transition-colors w-12 bg-slate-500 dark:bg-indigo-800 dark:text-white hover:bg-slate-900 dark:hover:bg-indigo-900 group"
+      className="flex items-center justify-center rounded-lg p-2 transition-colors w-12 bg-slate-500 dark:bg-indigo-800 dark:text-white hover:bg-slate-900 dark:hover:bg-indigo-900"
       onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
     >
       {resolvedTheme === "dark" ? (
         <BiSun className="h-5 w-5 text-white" />
       ) : (
-        <BiMoon className="h-5 w-5 text-black group-hover:!text-white" />
+        <BiMoon className="h-5 w-5 text-white" />
       )}
     </button>
   );
