@@ -1,30 +1,14 @@
 "use client";
 
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-
-function UpdateTodo(todo) {
-  const supabase = createClientComponentClient();
-  const router = useRouter();
-  const [isCompleted, setIsCompleted] = useState(false);
-
-  console.log(todo);
-
-  async function handleClick(e) {
-    //todo.is_complete ? setIsCompleted(!isCompleted);
-    e.preventDefault();
-
-    const { error } = await supabase.from("todos").update({
-      is_complete: false,
-    });
-    router.refresh();
-  }
+function UpdateTodo(props) {
+  console.log(props);
   return (
     <form>
       <input
         type="checkbox"
+        checked={props.todo.is_complete}
         className="h-12 w-12 rounded-full accent-indigo-400 text-indigo-600"
+        onChecked={props.handleClick}
       ></input>
     </form>
   );
