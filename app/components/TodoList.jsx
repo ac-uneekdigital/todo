@@ -13,7 +13,7 @@ function TodoList({ todos, sortedTodos, authuser, user }) {
               className="relative flex justify-between items-center rounded-md bg-red-300 h-20 w-full p-1"
             >
               <p className="text-2xl">{todo.task}</p>
-              <UpdateTodo todo={todo} />
+              <UpdateTodo todo={todo} authuser={authuser} />
             </div>
           ))}
         </div>
