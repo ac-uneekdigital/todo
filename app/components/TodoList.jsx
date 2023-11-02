@@ -1,14 +1,17 @@
 "use client";
-import Todo from "@/app/components/Todo";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useEffect, useState } from "react";
-import UpdateTodo from "./UpdateTodo";
+import Todo from "./Todo";
 
-function TodoList() {
+function TodoList({ authUser }) {
   const [todos, setTodos] = useState([]);
+
   async function fetchData() {
     const supabase = createClientComponentClient();
-    const { data: todos, error } = await supabase.from("todos").select();
+    const { data: todos, error } = await supabase
+      .from("todos")
+      .select()
+      .order("id", { ascending: false });
     setTodos(todos);
 
     if (error) {
@@ -18,24 +21,15 @@ function TodoList() {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [todos]);
 
   return (
     <>
       {todos && (
         <div className="flex flex-col gap-2 justify-center p-2">
-          {todos
-            .sort()
-            .reverse()
-            .map((todo) => (
-              <div
-                key={todo.id}
-                className="relative flex justify-between items-center rounded-md bg-red-300 h-20 w-full p-1"
-              >
-                <p className="text-2xl">{todo.task}</p>
-                <UpdateTodo todo={todo} />
-              </div>
-            ))}
+          {todos.map((todo) => (
+            <Todo key={todo.id} todo={todo} />
+          ))}
         </div>
       )}
       {!todos && <p>nothing to see here</p>}
