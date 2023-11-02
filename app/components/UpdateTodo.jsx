@@ -11,18 +11,10 @@ function UpdateTodo(props) {
   const [isComplete, setIsComplete] = useState(false);
 
   async function handleChange(e) {
-    setselectedTodo(e.target.id);
-    console.log(props);
-    e.preventDefault();
-    const { error } = await supabase.from("todos").upsert({
-      user_id: props.authuser.id,
-      id: selectedTodo,
-      is_complete: false,
-    });
-    router.refresh();
+    console.log("checked");
   }
 
-  console.log(isComplete);
+  console.log(props);
 
   return (
     <form>

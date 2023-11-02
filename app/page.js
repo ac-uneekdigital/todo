@@ -15,19 +15,6 @@ export default async function Home() {
   const user = data?.session?.user.user_metadata;
   const authUser = data.session?.user
 
-  const { data: todos, error } = await supabase.from("todos").select();
-  var sortedTodos = todos
-    .sort((a, b) => {
-      return (
-        new Date(a.inserted_at).getTime() - new Date(b.inserted_at).getTime()
-      );
-    })
-    .reverse();
-
-  if (error) {
-    console.log(error);
-  }
-
   if (data.session) {
 
     return (
@@ -40,7 +27,7 @@ export default async function Home() {
           </div>
           <div className="w-1/2 flex h-[600px] justify-center bg-indigo-100 dark:bg-slate-800 rounded-lg p-2 overflow-y-auto overflow-hidden">
             <div className="min-h-[6000px] w-full bg-black">
-              <TodoList todos={todos} sortedTodos={sortedTodos} />
+              <TodoList authUser={authUser} />
             </div>
           </div>
         </main>
