@@ -1,10 +1,13 @@
 "use client";
 
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { useRouter } from "next/navigation";
+
 import { useState } from "react";
 
 function AddTodo({ authUser }) {
   const supabase = createClientComponentClient();
+  const router = useRouter();
 
   const [task, setTask] = useState("");
 
@@ -16,6 +19,7 @@ function AddTodo({ authUser }) {
       is_complete: false,
       inserted_at: new Date().toISOString(),
     });
+    router.refresh();
   }
 
   return (

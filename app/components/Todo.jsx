@@ -2,6 +2,10 @@
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useState } from "react";
 
+//icons
+import { FaTrash } from "react-icons/fa";
+import { FaEdit } from "react-icons/fa";
+
 function Todo({ todo, onDelete }) {
   const supabase = createClientComponentClient();
   const [isCompleted, setIsCompleted] = useState(todo.is_complete);
@@ -23,30 +27,32 @@ function Todo({ todo, onDelete }) {
   };
 
   return (
-    <div className="relative flex justify-between items-center rounded-md bg-red-300 h-20 w-full p-1">
+    <div className="flex gap-4 items-center rounded-md text-white bg-indigo-800 dark:bg-slate-800 h-20 w-full p-1">
       <p className="text-2xl">{todo.task}</p>
-      <input
-        className="cursor-pointer"
-        onChange={(e) => toggle()}
-        type="checkbox"
-        checked={isCompleted ? true : false}
-      />
-      <button
+      <FaEdit
+        className="text-white-400 hover:text-indigo-300 cursor-pointer ml-auto"
+        size={36}
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
           onDelete();
         }}
-        className="w-4 h-4 ml-2 border-2 hover:border-black rounded"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="gray">
-          <path
-            fillRule="evenodd"
-            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-            clipRule="evenodd"
-          />
-        </svg>
-      </button>
+      />
+      <input
+        className="cursor-pointer accent-indigo-400 h-8 w-8"
+        onChange={(e) => toggle()}
+        type="checkbox"
+        checked={isCompleted ? true : false}
+      />
+      <FaTrash
+        className="text-red-400 hover:text-red-600 cursor-pointer mr-2"
+        size={33}
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          onDelete();
+        }}
+      />
     </div>
   );
 }
