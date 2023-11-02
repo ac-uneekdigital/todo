@@ -19,6 +19,17 @@ function TodoList({ authUser }) {
     }
   }
 
+  const deleteTodo = async (id) => {
+    const supabase = createClientComponentClient();
+    console.log(id);
+    try {
+      await supabase.from("todos").delete().eq("id", id).throwOnError();
+      setTodos(todos.filter((x) => x.id != id));
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+
   useEffect(() => {
     fetchData();
   }, [todos]);
@@ -28,7 +39,11 @@ function TodoList({ authUser }) {
       {todos && (
         <div className="flex flex-col gap-2 justify-center p-2">
           {todos.map((todo) => (
-            <Todo key={todo.id} todo={todo} />
+            <Todo
+              key={todo.id}
+              todo={todo}
+              onDelete={() => deleteTodo(todo.id)}
+            />
           ))}
         </div>
       )}

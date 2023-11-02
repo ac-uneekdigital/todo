@@ -7,7 +7,6 @@ import Navbar from "./components/Navbar";
 //Todo Components
 import TodoList from "./components/TodoList";
 import AddTodo from "./components/AddTodo";
-import DestroyTodo from "./components/DestroyTodo";
 
 export default async function Home() {
   const supabase = createServerComponentClient({ cookies });
