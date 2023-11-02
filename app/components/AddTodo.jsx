@@ -25,13 +25,15 @@ function AddTodo({ authUser }) {
         className="h-12 rounded-md text-center w-full"
         type="text"
         name="task"
-        placeholder="task"
+        placeholder="Enter new task here..."
+        onFocus={(e) => (e.target.placeholder = "")}
+        onBlur={(e) => (e.target.placeholder = "Enter new task here...")}
         value={task}
         onChange={(e) => setTask(e.target.value)}
       ></input>
       <button
         onClick={handleClick}
-        className="bg-indigo-400 dark:bg-slate-900 hover:bg-indigo-300 hover:dark:bg-slate-700 text-white rounded-lg p-4"
+        className="hidden bg-indigo-400 dark:bg-slate-900 hover:bg-indigo-300 hover:dark:bg-slate-700 text-white rounded-lg p-4"
       >
         ADD
       </button>

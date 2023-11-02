@@ -5,6 +5,7 @@ import Todo from "./Todo";
 
 function TodoList({ authUser }) {
   const [todos, setTodos] = useState([]);
+  const [editMode, setEditMode] = useState(false);
 
   async function fetchData() {
     const supabase = createClientComponentClient();
@@ -21,10 +22,24 @@ function TodoList({ authUser }) {
 
   const deleteTodo = async (id) => {
     const supabase = createClientComponentClient();
-    console.log(id);
     try {
       await supabase.from("todos").delete().eq("id", id).throwOnError();
       setTodos(todos.filter((x) => x.id != id));
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+
+  const editTodo = async (id) => {
+    const supabase = createClientComponentClient();
+    setEditMode(true);
+    console.log(editMode);
+    try {
+      console.log("editing", id);
+      //await supabase.from("todos").update().eq("id", id).throwOnError();
+      //setTodos(todos.filter((x) => x.id != id));
+      setEditMode(false);
+      console.log(editMode);
     } catch (error) {
       console.log("error", error);
     }
@@ -43,6 +58,7 @@ function TodoList({ authUser }) {
               key={todo.id}
               todo={todo}
               onDelete={() => deleteTodo(todo.id)}
+              edit={() => editTodo(todo.id)}
             />
           ))}
         </div>
