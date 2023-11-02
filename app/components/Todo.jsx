@@ -39,7 +39,7 @@ function Todo({ todo, onDelete }) {
         }}
       />
       <input
-        className="cursor-pointer accent-indigo-400 h-8 w-8"
+        className="cursor-pointer checked:accent-green-300 h-8 w-8"
         onChange={(e) => toggle()}
         type="checkbox"
         checked={isCompleted ? true : false}

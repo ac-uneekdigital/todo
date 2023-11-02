@@ -16,6 +16,7 @@ function AddTodo({ authUser }) {
       is_complete: false,
       inserted_at: new Date().toISOString(),
     });
+    setTask("");
   }
 
   return (
