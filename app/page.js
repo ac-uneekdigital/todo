@@ -26,7 +26,7 @@ export default async function Home() {
           </div>
           <div className="w-1/2 flex h-[600px] justify-center bg-indigo-100 dark:bg-slate-800 rounded-lg p-2 overflow-y-auto overflow-hidden">
             <div className="min-h-[6000px] w-full dark:bg-slate-900 bg-indigo-100">
-              <TodoList authUser={authUser} />
+              <TodoList />
             </div>
           </div>
         </main>

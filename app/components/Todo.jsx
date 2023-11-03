@@ -7,9 +7,11 @@ import { FaTrash } from "react-icons/fa";
 import { FaEdit } from "react-icons/fa";
 import { FaCheck } from "react-icons/fa";
 
-function Todo({ todo, edit, onDelete }) {
+function Todo({ todo, onDelete }) {
   const supabase = createClientComponentClient();
   const [isCompleted, setIsCompleted] = useState(todo.is_complete);
+  const [editMode, setEditMode] = useState(false);
+  const [updatedTask, setUpdatedTask] = useState(todo.task);
 
   const toggle = async () => {
     try {
@@ -27,16 +29,68 @@ function Todo({ todo, edit, onDelete }) {
     }
   };
 
+  const editTodo = async (todo) => {
+    const supabase = createClientComponentClient();
+    try {
+      //console.log(editMode);
+      //console.log("editing", todo.id);
+      await supabase
+        .from("todos")
+        .update({ task: updatedTask })
+        .eq("id", todo.id)
+        .throwOnError()
+        .select()
+        .single();
+      setEditMode(false);
+      //console.log(editMode);
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+
+  const deleteTodo = async (id) => {
+    const supabase = createClientComponentClient();
+    try {
+      await supabase.from("todos").delete().eq("id", id).throwOnError();
+      setTodos(todos.filter((x) => x.id != id));
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+
   return (
     <div className="flex gap-4 items-center rounded-md text-white bg-indigo-500 dark:bg-slate-800 h-20 w-full p-1">
-      <p className="text-2xl">{todo.task}</p>
+      {editMode ? (
+        <form>
+          <input
+            className="text-black"
+            type="text"
+            value={updatedTask}
+            onFocus={(e) => (e.target.placeholder = updatedTask)}
+            onBlur={(e) => (e.target.placeholder = updatedTask)}
+            onChange={(e) => setUpdatedTask(e.target.value)}
+          ></input>
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              editTodo(todo);
+            }}
+          >
+            Update
+          </button>
+        </form>
+      ) : (
+        <p className="text-2xl">{todo.task}</p>
+      )}
       <FaEdit
         className="text-indigo-400 hover:text-indigo-300 cursor-pointer ml-auto"
         size={36}
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
-          edit();
+          setEditMode(true);
+          //editTodo(todo);
         }}
       />
       <div className="flex justify-center items-center">
@@ -54,7 +108,7 @@ function Todo({ todo, edit, onDelete }) {
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
-          onDelete();
+          deleteTodo(todo.id);
         }}
       />
     </div>
