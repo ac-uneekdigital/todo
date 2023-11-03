@@ -19,13 +19,11 @@ export default async function Home() {
     return (
       <>
         <Navbar user={user} />
-        <main className="flex h-[calc(100vh-70px)] justify-between items-center w-10/12 gap-3 mx-auto p-8">
-          <div className="h-auto w-1/3 flex flex-col items-center gap-4 bg-indigo-100 dark:bg-slate-800 rounded-lg p-8">
-            <h2 className="text-3xl">Add Todo</h2>
-            <AddTodo authUser={authUser} />
-          </div>
-          <div className="w-1/2 flex h-[600px] justify-center bg-indigo-100 dark:bg-slate-800 rounded-lg p-2 overflow-y-auto overflow-hidden">
-            <div className="min-h-[6000px] w-full dark:bg-slate-900 bg-indigo-100">
+        <main className="flex h-[calc(100vh-70px)] p-8">
+          <div className="w-full lg:w-1/2 lg:mx-auto flex h-[calc(100vh-120px)] justify-center bg-indigo-100 dark:bg-slate-800 rounded-lg p-2 overflow-y-auto overflow-hidden">
+            <div className="w-full dark:bg-slate-900 bg-indigo-100">
+              <h1 className="text-center text-4xl font-black my-4">ToDo&apos;s</h1>
+              <AddTodo authUser={authUser} />
               <TodoList />
             </div>
           </div>

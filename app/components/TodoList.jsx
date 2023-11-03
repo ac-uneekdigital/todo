@@ -37,7 +37,7 @@ function TodoList() {
   return (
     <>
       {todos && (
-        <div className="flex flex-col gap-2 justify-center p-2">
+        <div className="w-full lg:w-1/2 lg:mx-auto flex flex-col gap-2 items-center justify-center">
           {todos.map((todo) => (
             <Todo key={todo.id} todo={todo} />
           ))}

@@ -20,9 +20,9 @@ function AddTodo({ authUser }) {
   }
 
   return (
-    <form className="flex flex-col items-center gap-5 w-full">
+    <form className="flex flex-col items-center gap-5 w-full pb-2">
       <input
-        className="h-12 rounded-md text-center w-full"
+        className="h-12 rounded-md text-center w-full lg:w-1/2 self-center"
         type="text"
         name="task"
         placeholder="Enter new task here..."
