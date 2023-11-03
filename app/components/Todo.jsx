@@ -48,16 +48,6 @@ function Todo({ todo, onDelete }) {
     }
   };
 
-  const deleteTodo = async (id) => {
-    const supabase = createClientComponentClient();
-    try {
-      await supabase.from("todos").delete().eq("id", id).throwOnError();
-      setTodos(todos.filter((x) => x.id != id));
-    } catch (error) {
-      console.log("error", error);
-    }
-  };
-
   return (
     <div className="flex gap-4 items-center rounded-md text-white bg-indigo-500 dark:bg-slate-800 h-20 w-full p-1">
       {editMode ? (
@@ -90,7 +80,6 @@ function Todo({ todo, onDelete }) {
           e.preventDefault();
           e.stopPropagation();
           setEditMode(true);
-          //editTodo(todo);
         }}
       />
       <div className="flex justify-center items-center">
@@ -108,7 +97,7 @@ function Todo({ todo, onDelete }) {
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
-          deleteTodo(todo.id);
+          onDelete(todo.id);
         }}
       />
     </div>
