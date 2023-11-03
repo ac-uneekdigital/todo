@@ -29,7 +29,9 @@ function AddTodo({ authUser }) {
         onFocus={(e) => (e.target.placeholder = "")}
         onBlur={(e) => (e.target.placeholder = "Enter new task here...")}
         value={task}
-        onChange={(e) => setTask(e.target.value)}
+        onChange={(e) => {
+          setTask(e.target.value);
+        }}
       ></input>
       <button
         onClick={handleClick}
