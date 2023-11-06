@@ -1,8 +1,12 @@
 "use client";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useEffect, useState } from "react";
-import Todo from "./Todo";
 import { v4 as uuidv4 } from "uuid";
+import Image from "next/image";
+
+//components
+import Todo from "./Todo";
+import Toast from "./Toast";
 
 function TodoList({ authUser }) {
   const supabase = createClientComponentClient();
@@ -12,6 +16,11 @@ function TodoList({ authUser }) {
     list: [null],
   });
   const [task, setTask] = useState("");
+
+  const [toast, setToast] = useState({
+    title: "",
+    message: "",
+  });
 
   async function fetchData() {
     const supabase = createClientComponentClient();
@@ -37,19 +46,22 @@ function TodoList({ authUser }) {
       is_complete: false,
       inserted_at: new Date().toISOString(),
     });
-    //console.log(data);
-    const newtodos = [
-      {
-        user_id: authUser.id,
-        id: id,
-        task: task,
-        is_complete: false,
-        inserted_at: new Date().toISOString(),
-      },
-      ...todos,
-    ];
-    setTodos(newtodos);
-    setTask("");
+    if (!error) {
+      const newtodos = [
+        {
+          user_id: authUser.id,
+          id: id,
+          task: task,
+          is_complete: false,
+          inserted_at: new Date().toISOString(),
+        },
+        ...todos,
+      ];
+      setTodos(newtodos);
+      setTask("");
+    } else {
+      console.error("Error when adding your todo", error);
+    }
   }
 
   function handleSearch(e) {
@@ -66,7 +78,6 @@ function TodoList({ authUser }) {
       query: e.target.value,
       list: results,
     });
-    console.log(results.length);
   }
 
   const deleteTodo = async (id) => {
@@ -88,7 +99,7 @@ function TodoList({ authUser }) {
       <h1 className="text-center text-xl font-black my-4">Add ToDo</h1>
       <form className="flex flex-col items-center gap-5 w-full p-2 mb-4">
         <input
-          className="h-12 rounded-md text-center w-full lg:w-1/2 self-center text-black"
+          className="h-12 rounded-md text-center w-full lg:w-1/2 self-center text-black dark:text-white"
           type="text"
           name="task"
           placeholder="Enter new task here..."
@@ -110,12 +121,23 @@ function TodoList({ authUser }) {
         <h1 className="text-center text-2xl font-black my-4">
           Your Todo&apos;s
         </h1>
-        {todos.length === 0 && <p>Cool, All your todos are complete.</p>}
+        {todos.length === 0 && (
+          <div className="flex flex-col justify-center items-center">
+            <p>Cool, All your todos are complete.</p>
+            <Image
+              className="pt-8"
+              src={"/happy.svg"}
+              height={350}
+              width={350}
+              alt="completed todos image"
+            />
+          </div>
+        )}
         {todos.length > 0 && (
           <div className="w-full lg:w-1/2 lg:mx-auto flex flex-col gap-2 items-center justify-center p-2">
             <form className="flex flex-col items-center gap-5 w-full pb-2">
               <input
-                className="h-12 rounded-md text-center w-full self-center text-black"
+                className="h-12 rounded-md text-center w-full self-center text-black  dark:text-white"
                 type="text"
                 placeholder="Filter your todos here..."
                 value={searchState.query}
@@ -145,6 +167,7 @@ function TodoList({ authUser }) {
           <p>Oops, we cant find anything like that.</p>
         )}
       </div>
+      <Toast toast={toast} />
     </>
   );
 }

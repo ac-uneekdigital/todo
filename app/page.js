@@ -4,9 +4,7 @@ import { redirect } from "next/navigation";
 
 //Components
 import Navbar from "./components/Navbar";
-//Todo Components
 import TodoList from "./components/TodoList";
-import AddTodo from "./components/AddTodo";
 
 export default async function Home() {
   const supabase = createServerComponentClient({ cookies });
