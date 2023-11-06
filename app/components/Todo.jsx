@@ -49,7 +49,7 @@ function Todo({ todo, onDelete }) {
   };
 
   return (
-    <div className="flex gap-4 items-center rounded-md text-white bg-indigo-500 dark:bg-slate-800 h-20 w-full p-1">
+    <div className="relative flex gap-4 items-center rounded-md text-white bg-indigo-500 dark:bg-slate-900 h-20 w-full p-1">
       {editMode ? (
         <form>
           <input

@@ -83,12 +83,10 @@ function TodoList({ authUser }) {
     fetchData();
   }, []);
 
-  console.log(todos);
-
   return (
     <>
       <h1 className="text-center text-xl font-black my-4">Add ToDo</h1>
-      <form className="flex flex-col items-center gap-5 w-full pb-2 mb-4">
+      <form className="flex flex-col items-center gap-5 w-full p-2 mb-4">
         <input
           className="h-12 rounded-md text-center w-full lg:w-1/2 self-center text-black"
           type="text"
@@ -108,7 +106,7 @@ function TodoList({ authUser }) {
           ADD
         </button>
       </form>
-      <div className="h-full text-center rounded-lg bg-indigo-200 dark:bg-slate-800 m-5 p-3">
+      <div className="min-h-[600px] text-center rounded-lg bg-indigo-200 dark:bg-slate-800 m-5 p-3">
         <h1 className="text-center text-2xl font-black my-4">
           Your Todo&apos;s
         </h1>
@@ -117,7 +115,7 @@ function TodoList({ authUser }) {
           <div className="w-full lg:w-1/2 lg:mx-auto flex flex-col gap-2 items-center justify-center p-2">
             <form className="flex flex-col items-center gap-5 w-full pb-2">
               <input
-                className="h-12 rounded-md text-center w-full lg:w-1/2 self-center text-black"
+                className="h-12 rounded-md text-center w-full self-center text-black"
                 type="text"
                 placeholder="Filter your todos here..."
                 value={searchState.query}
