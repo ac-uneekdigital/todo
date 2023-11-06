@@ -9,7 +9,7 @@ function TodoList({ authUser }) {
   const [todos, setTodos] = useState([]);
   const [searchState, setSearchState] = useState({
     query: "",
-    list: [],
+    list: [null],
   });
   const [task, setTask] = useState("");
 
@@ -49,6 +49,7 @@ function TodoList({ authUser }) {
       ...todos,
     ];
     setTodos(newtodos);
+    setTask("");
   }
 
   function handleSearch(e) {
@@ -56,7 +57,7 @@ function TodoList({ authUser }) {
     e.stopPropagation();
     const results = todos.filter((todo) => {
       if (e.target.value === "") {
-        return todo;
+        return "";
       } else {
         return todo.task.toLowerCase().includes(e.target.value.toLowerCase());
       }
@@ -65,6 +66,7 @@ function TodoList({ authUser }) {
       query: e.target.value,
       list: results,
     });
+    console.log(results.length);
   }
 
   const deleteTodo = async (id) => {
@@ -81,11 +83,14 @@ function TodoList({ authUser }) {
     fetchData();
   }, []);
 
+  console.log(todos);
+
   return (
     <>
-      <form className="flex flex-col items-center gap-5 w-full pb-2">
+      <h1 className="text-center text-xl font-black my-4">Add ToDo</h1>
+      <form className="flex flex-col items-center gap-5 w-full pb-2 mb-4">
         <input
-          className="h-12 rounded-md text-center w-full lg:w-1/2 self-center"
+          className="h-12 rounded-md text-center w-full lg:w-1/2 self-center text-black"
           type="text"
           name="task"
           placeholder="Enter new task here..."
@@ -103,31 +108,45 @@ function TodoList({ authUser }) {
           ADD
         </button>
       </form>
-      {todos && (
-        <div className="w-full lg:w-1/2 lg:mx-auto flex flex-col gap-2 items-center justify-center py-2">
-          <form>
-            <input
-              type="text"
-              value={searchState.query}
-              onFocus={(e) => (e.target.placeholder = "")}
-              onBlur={(e) => (e.target.placeholder = e.target.value)}
-              onChange={(e) => {
-                {
-                  handleSearch(e);
-                }
-              }}
-            ></input>
-          </form>
-          {searchState.query === ""
-            ? todos.map((todo) => {
-                return <Todo key={todo.id} todo={todo} onDelete={deleteTodo} />;
-              })
-            : searchState.list.map((todo) => {
-                return <Todo key={todo.id} todo={todo} onDelete={deleteTodo} />;
-              })}
-        </div>
-      )}
-      {!todos && <p>nothing to see here</p>}
+      <div className="h-full text-center rounded-lg bg-indigo-200 dark:bg-slate-800 m-5 p-3">
+        <h1 className="text-center text-2xl font-black my-4">
+          Your Todo&apos;s
+        </h1>
+        {todos.length === 0 && <p>Cool, All your todos are complete.</p>}
+        {todos.length > 0 && (
+          <div className="w-full lg:w-1/2 lg:mx-auto flex flex-col gap-2 items-center justify-center p-2">
+            <form className="flex flex-col items-center gap-5 w-full pb-2">
+              <input
+                className="h-12 rounded-md text-center w-full lg:w-1/2 self-center text-black"
+                type="text"
+                placeholder="Filter your todos here..."
+                value={searchState.query}
+                onFocus={(e) => (e.target.placeholder = "")}
+                onBlur={(e) => (e.target.placeholder = "Filter your todos")}
+                onChange={(e) => {
+                  {
+                    handleSearch(e);
+                  }
+                }}
+              ></input>
+            </form>
+            {searchState.query === ""
+              ? todos.map((todo) => {
+                  return (
+                    <Todo key={todo.id} todo={todo} onDelete={deleteTodo} />
+                  );
+                })
+              : searchState.list.map((todo) => {
+                  return (
+                    <Todo key={todo.id} todo={todo} onDelete={deleteTodo} />
+                  );
+                })}
+          </div>
+        )}
+        {searchState.list.length === 0 && searchState.query && (
+          <p>Oops, we cant find anything like that.</p>
+        )}
+      </div>
     </>
   );
 }

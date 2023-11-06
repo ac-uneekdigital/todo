@@ -22,7 +22,6 @@ export default async function Home() {
         <main className="flex h-[calc(100vh-70px)] p-8">
           <div className="w-full lg:w-1/2 lg:mx-auto flex h-[calc(100vh-120px)] justify-center bg-indigo-100 dark:bg-slate-800 rounded-lg p-2">
             <div className="h-auto w-full dark:bg-slate-900 bg-indigo-100 overflow-y-auto overflow-hidden">
-              <h1 className="text-center text-4xl font-black my-4">ToDo&apos;s</h1>
               <TodoList authUser={authUser} />
             </div>
           </div>
