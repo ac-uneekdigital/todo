@@ -151,4 +151,4 @@ function TodoList({ authUser }) {
 
 export default TodoList;
 
-//todo add toast notificationes
+//todo add toast notifications
