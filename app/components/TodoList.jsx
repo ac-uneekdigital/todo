@@ -7,7 +7,10 @@ import { v4 as uuidv4 } from "uuid";
 function TodoList({ authUser }) {
   const supabase = createClientComponentClient();
   const [todos, setTodos] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchState, setSearchState] = useState({
+    query: "",
+    list: [],
+  });
   const [task, setTask] = useState("");
 
   async function fetchData() {
@@ -45,7 +48,6 @@ function TodoList({ authUser }) {
       },
       ...todos,
     ];
-    setTask("");
     setTodos(newtodos);
   }
 
@@ -53,10 +55,16 @@ function TodoList({ authUser }) {
     e.preventDefault();
     e.stopPropagation();
     const results = todos.filter((todo) => {
-      if (e.target.value === "") return todo;
-      return todo.task.toLowerCase().includes(e.target.value.toLowerCase());
+      if (e.target.value === "") {
+        return todo;
+      } else {
+        return todo.task.toLowerCase().includes(e.target.value.toLowerCase());
+      }
     });
-    setTodos(results);
+    setSearchState({
+      query: e.target.value,
+      list: results,
+    });
   }
 
   const deleteTodo = async (id) => {
@@ -100,19 +108,23 @@ function TodoList({ authUser }) {
           <form>
             <input
               type="text"
+              value={searchState.query}
               onFocus={(e) => (e.target.placeholder = "")}
-              onBlur={(e) => (e.target.placeholder = searchTerm)}
+              onBlur={(e) => (e.target.placeholder = e.target.value)}
               onChange={(e) => {
                 {
-                  setSearchTerm(e.target.value);
                   handleSearch(e);
                 }
               }}
             ></input>
           </form>
-          {todos.map((todo) => (
-            <Todo key={todo.id} todo={todo} onDelete={deleteTodo} />
-          ))}
+          {searchState.query === ""
+            ? todos.map((todo) => {
+                return <Todo key={todo.id} todo={todo} onDelete={deleteTodo} />;
+              })
+            : searchState.list.map((todo) => {
+                return <Todo key={todo.id} todo={todo} onDelete={deleteTodo} />;
+              })}
         </div>
       )}
       {!todos && <p>nothing to see here</p>}
