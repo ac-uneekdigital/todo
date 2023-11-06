@@ -2,13 +2,12 @@
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useEffect, useState } from "react";
 import Todo from "./Todo";
-//import AddTodo from "./AddTodo";
+import { v4 as uuidv4 } from "uuid";
 
 function TodoList({ authUser }) {
   const supabase = createClientComponentClient();
   const [todos, setTodos] = useState([]);
-  const [filteredTodos, setfilteredTodos] = useState([]);
-  const [searchText, setSearchText] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
   const [task, setTask] = useState("");
 
   async function fetchData() {
@@ -26,15 +25,38 @@ function TodoList({ authUser }) {
 
   async function handleAddTodo(e) {
     e.preventDefault();
+    e.stopPropagation();
+    const id = uuidv4();
     const { error } = await supabase.from("todos").insert({
+      id: id,
       user_id: authUser.id,
       task: task,
       is_complete: false,
       inserted_at: new Date().toISOString(),
     });
+    //console.log(data);
+    const newtodos = [
+      {
+        user_id: authUser.id,
+        id: id,
+        task: task,
+        is_complete: false,
+        inserted_at: new Date().toISOString(),
+      },
+      ...todos,
+    ];
     setTask("");
-    const newtodos = fetchData();
     setTodos(newtodos);
+  }
+
+  function handleSearch(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    const results = todos.filter((todo) => {
+      if (e.target.value === "") return todo;
+      return todo.task.toLowerCase().includes(e.target.value.toLowerCase());
+    });
+    setTodos(results);
   }
 
   const deleteTodo = async (id) => {
@@ -79,21 +101,14 @@ function TodoList({ authUser }) {
             <input
               type="text"
               onFocus={(e) => (e.target.placeholder = "")}
-              onBlur={(e) => (e.target.placeholder = searchText)}
+              onBlur={(e) => (e.target.placeholder = searchTerm)}
               onChange={(e) => {
                 {
-                  setSearchText(e.target.value);
+                  setSearchTerm(e.target.value);
+                  handleSearch(e);
                 }
               }}
             ></input>
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-              }}
-            >
-              Search
-            </button>
           </form>
           {todos.map((todo) => (
             <Todo key={todo.id} todo={todo} onDelete={deleteTodo} />
