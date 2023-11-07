@@ -17,10 +17,7 @@ function TodoList({ authUser }) {
   });
   const [task, setTask] = useState("");
 
-  const [toast, setToast] = useState({
-    title: "",
-    message: "",
-  });
+  const [toast, setToast] = useState(null);
 
   async function fetchData() {
     const supabase = createClientComponentClient();
@@ -59,6 +56,10 @@ function TodoList({ authUser }) {
       ];
       setTodos(newtodos);
       setTask("");
+      setToast({
+        type: "warning",
+        message: "Todo Added!",
+      });
     } else {
       console.error("Error when adding your todo", error);
     }
@@ -167,7 +168,7 @@ function TodoList({ authUser }) {
           <p>Oops, we cant find anything like that.</p>
         )}
       </div>
-      <Toast toast={toast} />
+      {toast && <Toast toast={toast} />}
     </>
   );
 }
