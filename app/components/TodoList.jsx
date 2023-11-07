@@ -11,6 +11,7 @@ import Toast from "./Toast";
 function TodoList({ authUser }) {
   const supabase = createClientComponentClient();
   const [todos, setTodos] = useState([]);
+  const [editMode, setEditMode] = useState(false);
   const [alertIsShown, setalertIsShown] = useState(false);
   const [searchState, setSearchState] = useState({
     query: "",
@@ -67,22 +68,13 @@ function TodoList({ authUser }) {
     }
   }
 
-  async function editTodo(todo) {
-    try {
-      console.log(editMode);
-      console.log("editing", todo.id);
-      await supabase
-        .from("todos")
-        .update({ task: updatedTask })
-        .eq("id", todo.id)
-        .throwOnError()
-        .select()
-        .single();
-      setEditMode(false);
-      //console.log(editMode);
-    } catch (error) {
-      console.log("error", error);
-    }
+  function handleEdit(editedTodo) {
+    //console.log(editedTodo.id);
+    const editedTodos = todos.map((todo) => {
+      return todo.id === editedTodo.id ? editedTodo : todo;
+    });
+    console.log(editedTodos);
+    setTodos(editedTodos);
   }
 
   function handleSearch(e) {
@@ -189,8 +181,9 @@ function TodoList({ authUser }) {
                     <Todo
                       key={todo.id}
                       todo={todo}
+                      todos={todos}
+                      onEdit={handleEdit}
                       onDelete={deleteTodo}
-                      onEdit={editTodo}
                     />
                   );
                 })
@@ -199,8 +192,9 @@ function TodoList({ authUser }) {
                     <Todo
                       key={todo.id}
                       todo={todo}
+                      todos={todos}
+                      onEdit={handleEdit}
                       onDelete={deleteTodo}
-                      onEdit={editTodo}
                     />
                   );
                 })}

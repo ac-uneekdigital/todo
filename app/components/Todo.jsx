@@ -7,7 +7,7 @@ import { FaTrash } from "react-icons/fa";
 import { FaEdit } from "react-icons/fa";
 import { FaCheck } from "react-icons/fa";
 
-function Todo({ todo, onDelete, onEdit }) {
+function Todo({ todo, onEdit, onDelete }) {
   const supabase = createClientComponentClient();
   const [isCompleted, setIsCompleted] = useState(todo.is_complete);
   const [editMode, setEditMode] = useState(false);
@@ -29,12 +29,40 @@ function Todo({ todo, onDelete, onEdit }) {
     }
   };
 
+  const editTodo = async (todo) => {
+    const supabase = createClientComponentClient();
+    try {
+      //console.log(editMode);
+      //console.log("editing", todo.id);
+      await supabase
+        .from("todos")
+        .update({ task: updatedTask })
+        .eq("id", todo.id)
+        .throwOnError()
+        .select()
+        .single();
+      setEditMode(false);
+      //console.log(editMode);
+      const editedTodo = {
+        user_id: todo.user_id,
+        id: todo.id,
+        task: updatedTask,
+        is_complete: todo.is_complete,
+        inserted_at: todo.inserted_at,
+      };
+      onEdit(editedTodo);
+      // console.log(editedTodo);
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+
   return (
     <div className="relative flex gap-4 items-center rounded-md text-white bg-indigo-500 dark:bg-slate-900 h-20 w-full p-1">
       {editMode ? (
         <form>
           <input
-            className="text-black"
+            className="text-black dark:text-white"
             type="text"
             value={updatedTask}
             onFocus={(e) => (e.target.placeholder = updatedTask)}
@@ -45,7 +73,7 @@ function Todo({ todo, onDelete, onEdit }) {
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              onEdit(todo);
+              editTodo(todo);
             }}
           >
             Update
