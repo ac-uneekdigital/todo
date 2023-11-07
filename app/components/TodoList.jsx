@@ -11,6 +11,7 @@ import Toast from "./Toast";
 function TodoList({ authUser }) {
   const supabase = createClientComponentClient();
   const [todos, setTodos] = useState([]);
+  const [alertIsShown, setalertIsShown] = useState(false);
   const [searchState, setSearchState] = useState({
     query: "",
     list: [null],
@@ -56,12 +57,31 @@ function TodoList({ authUser }) {
       ];
       setTodos(newtodos);
       setTask("");
+      setalertIsShown(true);
       setToast({
-        type: "warning",
+        type: "success",
         message: "Todo Added!",
       });
     } else {
       console.error("Error when adding your todo", error);
+    }
+  }
+
+  async function editTodo(todo) {
+    try {
+      console.log(editMode);
+      console.log("editing", todo.id);
+      await supabase
+        .from("todos")
+        .update({ task: updatedTask })
+        .eq("id", todo.id)
+        .throwOnError()
+        .select()
+        .single();
+      setEditMode(false);
+      //console.log(editMode);
+    } catch (error) {
+      console.log("error", error);
     }
   }
 
@@ -86,6 +106,11 @@ function TodoList({ authUser }) {
     try {
       await supabase.from("todos").delete().eq("id", id).throwOnError();
       setTodos(todos.filter((x) => x.id != id));
+      setalertIsShown(true);
+      setToast({
+        type: "success",
+        message: "Todo Deleted!",
+      });
     } catch (error) {
       console.log("error", error);
     }
@@ -94,6 +119,13 @@ function TodoList({ authUser }) {
   useEffect(() => {
     fetchData();
   }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setalertIsShown(false);
+      setToast(null);
+    }, 2500);
+  }, [toast]);
 
   return (
     <>
@@ -118,7 +150,7 @@ function TodoList({ authUser }) {
           ADD
         </button>
       </form>
-      <div className="min-h-[600px] text-center rounded-lg bg-indigo-200 dark:bg-slate-800 m-5 p-3">
+      <div className="relative min-h-[600px] text-center rounded-lg bg-indigo-200 dark:bg-slate-800 m-5 p-3">
         <h1 className="text-center text-2xl font-black my-4">
           Your Todo&apos;s
         </h1>
@@ -135,7 +167,7 @@ function TodoList({ authUser }) {
           </div>
         )}
         {todos.length > 0 && (
-          <div className="w-full lg:w-1/2 lg:mx-auto flex flex-col gap-2 items-center justify-center p-2">
+          <div className="w-full lg:w-1/2 lg:mx-auto flex flex-col gap-2 items-center justify-center p-2 z-40">
             <form className="flex flex-col items-center gap-5 w-full pb-2">
               <input
                 className="h-12 rounded-md text-center w-full self-center text-black  dark:text-white"
@@ -154,12 +186,22 @@ function TodoList({ authUser }) {
             {searchState.query === ""
               ? todos.map((todo) => {
                   return (
-                    <Todo key={todo.id} todo={todo} onDelete={deleteTodo} />
+                    <Todo
+                      key={todo.id}
+                      todo={todo}
+                      onDelete={deleteTodo}
+                      onEdit={editTodo}
+                    />
                   );
                 })
               : searchState.list.map((todo) => {
                   return (
-                    <Todo key={todo.id} todo={todo} onDelete={deleteTodo} />
+                    <Todo
+                      key={todo.id}
+                      todo={todo}
+                      onDelete={deleteTodo}
+                      onEdit={editTodo}
+                    />
                   );
                 })}
           </div>
@@ -167,8 +209,10 @@ function TodoList({ authUser }) {
         {searchState.list.length === 0 && searchState.query && (
           <p>Oops, we cant find anything like that.</p>
         )}
+        <div className="h-12 w-full lg:w-1/6 absolute right-3 bottom-5 z-10">
+          {toast && alertIsShown && <Toast toast={toast} />}
+        </div>
       </div>
-      {toast && <Toast toast={toast} />}
     </>
   );
 }

@@ -7,7 +7,7 @@ import { FaTrash } from "react-icons/fa";
 import { FaEdit } from "react-icons/fa";
 import { FaCheck } from "react-icons/fa";
 
-function Todo({ todo, onDelete }) {
+function Todo({ todo, onDelete, onEdit }) {
   const supabase = createClientComponentClient();
   const [isCompleted, setIsCompleted] = useState(todo.is_complete);
   const [editMode, setEditMode] = useState(false);
@@ -29,25 +29,6 @@ function Todo({ todo, onDelete }) {
     }
   };
 
-  const editTodo = async (todo) => {
-    const supabase = createClientComponentClient();
-    try {
-      //console.log(editMode);
-      //console.log("editing", todo.id);
-      await supabase
-        .from("todos")
-        .update({ task: updatedTask })
-        .eq("id", todo.id)
-        .throwOnError()
-        .select()
-        .single();
-      setEditMode(false);
-      //console.log(editMode);
-    } catch (error) {
-      console.log("error", error);
-    }
-  };
-
   return (
     <div className="relative flex gap-4 items-center rounded-md text-white bg-indigo-500 dark:bg-slate-900 h-20 w-full p-1">
       {editMode ? (
@@ -64,7 +45,7 @@ function Todo({ todo, onDelete }) {
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              editTodo(todo);
+              onEdit(todo);
             }}
           >
             Update
