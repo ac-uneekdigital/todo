@@ -62,14 +62,12 @@ function Todo({ todo, onEdit, onDelete }) {
     }
   };
 
-  //todo setup a toggle for edit mode which allows for it to be cancelled. also chnage the icon to a cross when editmode is active..
-
   return (
     <div className="relative flex gap-4 items-center rounded-md text-white bg-indigo-500 dark:bg-slate-900 h-20 w-full p-1">
       {editMode ? (
         <form>
           <input
-            className="h-12 border-b-2 border-gray-200 text-black bg-indigo-500 dark:bg-slate-900 dark:text-white focus:outline-none indent-2 focus:border-indigo-900 dark:focus:border-slate-400"
+            className="h-12 border-b-2 border-gray-200 text-black bg-indigo-500 dark:bg-slate-900 dark:text-white focus:outline-none indent-2 focus:border-indigo-900 dark:focus:border-slate-400 text-2xl"
             type="text"
             value={updatedTask}
             onFocus={(e) => (e.target.placeholder = updatedTask)}
@@ -88,11 +86,11 @@ function Todo({ todo, onEdit, onDelete }) {
           </button>
         </form>
       ) : (
-        <p className="text-2xl">{todo.task}</p>
+        <p className="text-2xl indent-2">{todo.task}</p>
       )}
       {!editMode ? (
         <TbEdit
-          className="text-indigo-400 hover:text-indigo-300 cursor-pointer ml-auto"
+          className="text-white hover:text-indigo-300 cursor-pointer ml-auto"
           size={36}
           onClick={(e) => {
             e.preventDefault();
@@ -102,7 +100,7 @@ function Todo({ todo, onEdit, onDelete }) {
         />
       ) : (
         <TbEditOff
-          className="text-indigo-400 hover:text-indigo-300 cursor-pointer ml-auto"
+          className="text-white hover:text-indigo-300 cursor-pointer ml-auto"
           size={36}
           onClick={(e) => {
             e.preventDefault();

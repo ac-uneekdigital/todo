@@ -1,6 +1,7 @@
 "use client";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
+
 import { v4 as uuidv4 } from "uuid";
 import Image from "next/image";
 
@@ -10,6 +11,7 @@ import Toast from "./Toast";
 
 function TodoList({ authUser }) {
   const supabase = createClientComponentClient();
+  const [fetchedData, setFetchedData] = useState(false);
   const [todos, setTodos] = useState([]);
   const [editMode, setEditMode] = useState(false);
   const [alertIsShown, setalertIsShown] = useState(false);
@@ -27,7 +29,7 @@ function TodoList({ authUser }) {
       .select()
       .order("id", { ascending: false });
     setTodos(todos);
-
+    setFetchedData(true);
     if (error) {
       console.log(error);
     }
@@ -122,6 +124,8 @@ function TodoList({ authUser }) {
     }, 2500);
   }, [toast]);
 
+  function handleErrors() {}
+
   return (
     <>
       <h1 className="text-center text-xl font-black my-4">Add ToDo</h1>
@@ -149,9 +153,12 @@ function TodoList({ authUser }) {
         <h1 className="text-center text-2xl font-black my-4">
           Your Todo&apos;s
         </h1>
-        {todos.length === 0 && (
+        <Suspense fallback={<p>Loading todos...</p>}>
+          {!fetchedData && <p>Loading todos...</p>}{" "}
+        </Suspense>
+        {fetchedData && todos.length === 0 && (
           <div className="flex flex-col justify-center items-center">
-            <p>Cool, All your todos are complete.</p>
+            <p>Looks like you&apos;ve got nothing to do...</p>
             <Image
               className="pt-8"
               src={"/happy.svg"}
@@ -161,6 +168,7 @@ function TodoList({ authUser }) {
             />
           </div>
         )}
+
         {todos.length > 0 && (
           <div className="w-full lg:w-1/2 lg:mx-auto flex flex-col gap-2 items-center justify-center p-2 z-40">
             <form className="flex flex-col items-center gap-5 w-full pb-2">
@@ -187,6 +195,7 @@ function TodoList({ authUser }) {
                       todos={todos}
                       onEdit={handleEdit}
                       onDelete={deleteTodo}
+                      onError={handleErrors}
                     />
                   );
                 })
@@ -198,6 +207,7 @@ function TodoList({ authUser }) {
                       todos={todos}
                       onEdit={handleEdit}
                       onDelete={deleteTodo}
+                      onError={handleErrors}
                     />
                   );
                 })}
