@@ -18,7 +18,6 @@ function TodoList({ authUser }) {
     list: [null],
   });
   const [task, setTask] = useState("");
-
   const [toast, setToast] = useState(null);
 
   async function fetchData() {
@@ -69,12 +68,16 @@ function TodoList({ authUser }) {
   }
 
   function handleEdit(editedTodo) {
-    //console.log(editedTodo.id);
     const editedTodos = todos.map((todo) => {
       return todo.id === editedTodo.id ? editedTodo : todo;
     });
     console.log(editedTodos);
     setTodos(editedTodos);
+    setalertIsShown(true);
+    setToast({
+      type: "success",
+      message: "Todo Updated!",
+    });
   }
 
   function handleSearch(e) {

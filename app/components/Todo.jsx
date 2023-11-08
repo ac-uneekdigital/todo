@@ -4,7 +4,8 @@ import { useState } from "react";
 
 //icons
 import { FaTrash } from "react-icons/fa";
-import { FaEdit } from "react-icons/fa";
+import { TbEdit } from "react-icons/tb";
+import { TbEditOff } from "react-icons/tb";
 import { FaCheck } from "react-icons/fa";
 
 function Todo({ todo, onEdit, onDelete }) {
@@ -28,6 +29,10 @@ function Todo({ todo, onEdit, onDelete }) {
       console.log("error", error);
     }
   };
+
+  function toggleEdit() {
+    setEditMode(!editMode);
+  }
 
   const editTodo = async (todo) => {
     const supabase = createClientComponentClient();
@@ -85,15 +90,27 @@ function Todo({ todo, onEdit, onDelete }) {
       ) : (
         <p className="text-2xl">{todo.task}</p>
       )}
-      <FaEdit
-        className="text-indigo-400 hover:text-indigo-300 cursor-pointer ml-auto"
-        size={36}
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          setEditMode(true);
-        }}
-      />
+      {!editMode ? (
+        <TbEdit
+          className="text-indigo-400 hover:text-indigo-300 cursor-pointer ml-auto"
+          size={36}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            toggleEdit();
+          }}
+        />
+      ) : (
+        <TbEditOff
+          className="text-indigo-400 hover:text-indigo-300 cursor-pointer ml-auto"
+          size={36}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            toggleEdit();
+          }}
+        />
+      )}
       <div className="flex justify-center items-center">
         <input
           className="appearance-none rounded-full peer cursor-pointer bg-indigo-400 hover:bg-indigo-300 checked:bg-teal-300 h-8 w-8"
