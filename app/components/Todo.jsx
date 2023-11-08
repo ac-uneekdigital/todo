@@ -67,7 +67,7 @@ function Todo({ todo, onEdit, onDelete }) {
       {editMode ? (
         <form>
           <input
-            className="h-12 border-b-2 border-gray-200 text-black bg-indigo-500 dark:bg-slate-900 dark:text-white focus:outline-none indent-2 focus:border-indigo-900 dark:focus:border-slate-400 text-2xl"
+            className="h-12 border-b-2 border-gray-200 text-black bg-indigo-500 dark:bg-slate-900 dark:text-white focus:outline-none indent-2 focus:border-indigo-900 dark:focus:border-slate-400 text-base lg:text-xl "
             type="text"
             value={updatedTask}
             onFocus={(e) => (e.target.placeholder = updatedTask)}
@@ -86,7 +86,7 @@ function Todo({ todo, onEdit, onDelete }) {
           </button>
         </form>
       ) : (
-        <p className="text-2xl indent-2">{todo.task}</p>
+        <p className="text-base lg:text-xl indent-2">{todo.task}</p>
       )}
       {!editMode ? (
         <TbEdit
