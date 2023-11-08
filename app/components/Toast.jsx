@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import { FaCheck } from "react-icons/fa";
 import { FaExclamationTriangle } from "react-icons/fa";
 import { FaExclamationCircle } from "react-icons/fa";
-import { FaX } from "react-icons/fa6";
 
 function Toast({ toast }) {
   const [isShown, setIsShown] = useState(true);
@@ -34,7 +33,6 @@ function Toast({ toast }) {
             <div className="relative h-12 flex gap-3 items-center p-3">
               {toastIcon}
               <p>{toast.message}</p>
-              {/* <FaX /> */}
             </div>
           </div>
         </div>
