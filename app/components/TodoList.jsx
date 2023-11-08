@@ -13,7 +13,6 @@ function TodoList({ authUser }) {
   const supabase = createClientComponentClient();
   const [fetchedData, setFetchedData] = useState(false);
   const [todos, setTodos] = useState([]);
-  const [editMode, setEditMode] = useState(false);
   const [alertIsShown, setalertIsShown] = useState(false);
   const [searchState, setSearchState] = useState({
     query: "",
