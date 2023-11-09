@@ -113,7 +113,7 @@ function TodoList({ authUser, user }) {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  });
 
   useEffect(() => {
     setTimeout(() => {
@@ -127,81 +127,85 @@ function TodoList({ authUser, user }) {
   return (
     <>
       <Navbar user={user} search={handleSearch} searchState={searchState} />
-      <h1 className="text-center text-xl font-black my-4">Add ToDo</h1>
-      <form className="flex flex-col items-center gap-5 w-full p-2 mb-4">
-        <input
-          className="h-12 rounded-md text-center w-full lg:w-1/2 self-center text-black dark:text-white"
-          type="text"
-          name="task"
-          placeholder="Enter new task here..."
-          onFocus={(e) => (e.target.placeholder = "")}
-          onBlur={(e) => (e.target.placeholder = "Enter new task here...")}
-          value={task}
-          onChange={(e) => {
-            setTask(e.target.value);
-          }}
-        ></input>
-        <button
-          onClick={handleAddTodo}
-          className="hidden bg-indigo-400 dark:bg-slate-900 hover:bg-indigo-300 hover:dark:bg-slate-700 text-white rounded-lg p-4"
-        >
-          ADD
-        </button>
-      </form>
-      <div className="relative min-h-[600px] text-center rounded-lg bg-indigo-200 dark:bg-slate-800 m-5 p-3">
-        <h1 className="text-center text-2xl font-black my-4">
-          Your Todo&apos;s
-        </h1>
-        <Suspense fallback={<p>Loading todos...</p>}>
-          {!fetchedData && <p>Loading todos...</p>}{" "}
-        </Suspense>
-        {fetchedData && todos.length === 0 && (
-          <div className="flex flex-col justify-center items-center">
-            <p>Looks like you&apos;ve got nothing to do...</p>
-            <Image
-              className="pt-8"
-              src={"/happy.svg"}
-              height={350}
-              width={350}
-              alt="completed todos image"
-            />
-          </div>
-        )}
+      <div className="flex mt-[70px] w-5/6 mx-auto p-1">
+        <div className="flex flex-col justify-center w-1/2">
+          <h1 className="text-start text-xl font-black my-4">Add Todo</h1>
+          <form className="flex flex-col items-start gap-5 w-full mb-4">
+            <input
+              className="h-12 rounded-md text-start w-full lg:w-96 self-start border-2 border-indigo-500 indent-1 text-black dark:text-white"
+              type="text"
+              name="task"
+              placeholder="Enter new task here..."
+              onFocus={(e) => (e.target.placeholder = "")}
+              onBlur={(e) => (e.target.placeholder = "Enter new task here...")}
+              value={task}
+              onChange={(e) => {
+                setTask(e.target.value);
+              }}
+            ></input>
+            <button
+              onClick={handleAddTodo}
+              className="bg-indigo-400 dark:bg-slate-900 hover:bg-indigo-300 hover:dark:bg-slate-700 text-white rounded-lg p-4"
+            >
+              ADD
+            </button>
+          </form>
+        </div>
+        <div className="relative flex  flex-col w-1/2 justify-center min-h-[600px] text-center rounded-lg bg-white dark:bg-slate-800">
+          <h1 className="text-center text-2xl font-black my-4">
+            Your Todo&apos;s
+          </h1>
+          <Suspense fallback={<p>Loading todos...</p>}>
+            {!fetchedData && <p>Loading todos...</p>}{" "}
+          </Suspense>
+          {fetchedData && todos.length === 0 && (
+            <div className="flex flex-col justify-center items-center">
+              <p>Looks like you&apos;ve got nothing to do...</p>
+              <Image
+                className="pt-8"
+                src={"/happy.svg"}
+                height={350}
+                width={350}
+                alt="completed todos image"
+              />
+            </div>
+          )}
 
-        {todos.length > 0 && (
-          <div className="w-full lg:w-1/2 lg:mx-auto flex flex-col gap-2 items-center justify-center p-2 z-40">
-            {searchState.query === ""
-              ? todos.map((todo) => {
-                  return (
-                    <Todo
-                      key={todo.id}
-                      todo={todo}
-                      todos={todos}
-                      onEdit={handleEdit}
-                      onDelete={deleteTodo}
-                      onError={handleErrors}
-                    />
-                  );
-                })
-              : searchState.list.map((todo) => {
-                  return (
-                    <Todo
-                      key={todo.id}
-                      todo={todo}
-                      todos={todos}
-                      onEdit={handleEdit}
-                      onDelete={deleteTodo}
-                      onError={handleErrors}
-                    />
-                  );
-                })}
+          {todos.length > 0 && (
+            <div className="w-full lg:mx-auto flex flex-col gap-2 items-center justify-center z-40">
+              {searchState.query === ""
+                ? todos.map((todo) => {
+                    return (
+                      <Todo
+                        key={todo.id}
+                        todo={todo}
+                        todos={todos}
+                        onEdit={handleEdit}
+                        onDelete={deleteTodo}
+                        onError={handleErrors}
+                      />
+                    );
+                  })
+                : searchState.list.map((todo) => {
+                    return (
+                      <Todo
+                        key={todo.id}
+                        todo={todo}
+                        todos={todos}
+                        onEdit={handleEdit}
+                        onDelete={deleteTodo}
+                        onError={handleErrors}
+                      />
+                    );
+                  })}
+            </div>
+          )}
+          {searchState.list.length === 0 && searchState.query && (
+            <p>Oops, we cant find anything like that.</p>
+          )}
+          <div className="h-12 w-full lg:w-1/6 absolute right-3 bottom-5 z-10">
+            {toast && alertIsShown && <Toast toast={toast} />}
           </div>
-        )}
-        {searchState.list.length === 0 && searchState.query && (
-          <p>Oops, we cant find anything like that.</p>
-        )}
-        <div className="h-12 w-full lg:w-1/6 absolute right-3 bottom-5 z-10">
-          {toast && alertIsShown && <Toast toast={toast} />}
         </div>
       </div>
     </>

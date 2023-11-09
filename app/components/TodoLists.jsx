@@ -24,12 +24,12 @@ function TodoLists() {
 
   useEffect(() => {
     fetchLists();
-  }, []);
+  });
 
   return (
     <div>
       <div className="h-[70px] p-3">
-        <h1 className="text-4xl font-black">Todo&apos;s</h1>
+        <h1 className="text-4xl text-white font-black">Todo&apos;s</h1>
       </div>
       <div className="flex justify-center px-2">
         <Suspense fallback={<p>Loading todos...</p>}>
@@ -43,7 +43,10 @@ function TodoLists() {
         {todoLists.length > 0 &&
           todoLists.map((list) => {
             return (
-              <div key={list.id} className="flex h-12 w-full p-2 bg-gray-300 ">
+              <div
+                key={list.id}
+                className="flex items-center h-12 w-full p-2 text-white cursor-pointer hover:bg-indigo-700 rounded-lg"
+              >
                 <p>{list.list_name}</p>
               </div>
             );

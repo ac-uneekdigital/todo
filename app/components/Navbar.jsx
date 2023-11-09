@@ -9,6 +9,7 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import ThemeSwitcher from "@/app/components/theme/ThemeSwitcher";
 
 //icons
+import { GoSearch } from "react-icons/go";
 
 function Navbar({ user, search, searchState }) {
   const avatar = user.avatar_url;
@@ -45,9 +46,12 @@ function Navbar({ user, search, searchState }) {
   return (
     <nav className="fixed top-0 right-0 w-10/12 bg-white dark:bg-gray-950 shadow-sm">
       <div className="w-full mx-auto lg:full h-[70px] flex justify-between items-center self-center px-4">
-        <form className="flex justify-center items-center gap-2 bg-teal-300">
+        <form className="flex justify-center items-center gap-2">
+          <div className="flex">
+            <GoSearch size={32} />
+          </div>
           <input
-            className="h-12 text-start w-96 self-center text-black  dark:text-white border-b-2 border-black focus:outline-none"
+            className="h-12 text-start w-96 indent-2 bg-transparent text-black dark:text-white border-b-2 border-black dark:border-white focus:outline-none placeholder:text-black dark:placeholder:text-white"
             type="text"
             placeholder="Filter your todos here..."
             value={searchState.query}

@@ -37,8 +37,6 @@ function Todo({ todo, onEdit, onDelete }) {
   const editTodo = async (todo) => {
     const supabase = createClientComponentClient();
     try {
-      //console.log(editMode);
-      //console.log("editing", todo.id);
       await supabase
         .from("todos")
         .update({ task: updatedTask })
@@ -47,7 +45,6 @@ function Todo({ todo, onEdit, onDelete }) {
         .select()
         .single();
       setEditMode(false);
-      //console.log(editMode);
       const editedTodo = {
         user_id: todo.user_id,
         id: todo.id,
@@ -56,18 +53,17 @@ function Todo({ todo, onEdit, onDelete }) {
         inserted_at: todo.inserted_at,
       };
       onEdit(editedTodo);
-      // console.log(editedTodo);
     } catch (error) {
       console.log("error", error);
     }
   };
 
   return (
-    <div className="relative flex gap-4 items-center rounded-md text-white bg-indigo-500 dark:bg-slate-900 h-20 w-full p-1">
+    <div className="relative flex flex-col lg:flex-row gap-4 items-center rounded-md text-white bg-indigo-400 dark:bg-slate-900 h-auto lg:h-20 w-full p-1">
       {editMode ? (
         <form>
           <input
-            className="h-12 border-b-2 border-gray-200 text-black bg-indigo-500 dark:bg-slate-900 dark:text-white focus:outline-none indent-2 focus:border-indigo-900 dark:focus:border-slate-400 text-base lg:text-xl "
+            className="h-12 border-b-2 w-auto lg:w-[550px] border-gray-200 text-black bg-indigo-500 dark:bg-slate-900 dark:text-white focus:outline-none indent-2 focus:border-indigo-900 dark:focus:border-slate-400 text-base lg:text-xl "
             type="text"
             value={updatedTask}
             onFocus={(e) => (e.target.placeholder = updatedTask)}
@@ -86,47 +82,49 @@ function Todo({ todo, onEdit, onDelete }) {
           </button>
         </form>
       ) : (
-        <p className="text-base lg:text-xl indent-2">{todo.task}</p>
+        <p className="text-xs lg:text-xl indent-2">{todo.task}</p>
       )}
-      {!editMode ? (
-        <TbEdit
-          className="text-white hover:text-indigo-300 cursor-pointer ml-auto"
-          size={36}
+      <div className="flex gap-5 lg:ml-auto justify-between">
+        {!editMode ? (
+          <TbEdit
+            className="text-white hover:text-indigo-300 cursor-pointer ml-auto"
+            size={36}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              toggleEdit();
+            }}
+          />
+        ) : (
+          <TbEditOff
+            className="text-white hover:text-indigo-300 cursor-pointer ml-auto"
+            size={36}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              toggleEdit();
+            }}
+          />
+        )}
+        <div className="flex justify-center items-center">
+          <input
+            className="appearance-none rounded-full peer cursor-pointer bg-indigo-500 hover:bg-indigo-300 checked:bg-teal-300 h-8 w-8"
+            onChange={(e) => toggle()}
+            type="checkbox"
+            checked={isCompleted ? true : false}
+          />
+          <FaCheck className="absolute hidden peer-checked:block" />
+        </div>
+        <FaTrash
+          className="text-red-400 hover:text-red-500 cursor-pointer mr-2"
+          size={28}
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            toggleEdit();
+            onDelete(todo.id);
           }}
         />
-      ) : (
-        <TbEditOff
-          className="text-white hover:text-indigo-300 cursor-pointer ml-auto"
-          size={36}
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            toggleEdit();
-          }}
-        />
-      )}
-      <div className="flex justify-center items-center">
-        <input
-          className="appearance-none rounded-full peer cursor-pointer bg-indigo-400 hover:bg-indigo-300 checked:bg-teal-300 h-8 w-8"
-          onChange={(e) => toggle()}
-          type="checkbox"
-          checked={isCompleted ? true : false}
-        />
-        <FaCheck className="absolute hidden peer-checked:block" />
       </div>
-      <FaTrash
-        className="text-red-400 hover:text-red-500 cursor-pointer mr-2"
-        size={28}
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          onDelete(todo.id);
-        }}
-      />
     </div>
   );
 }
