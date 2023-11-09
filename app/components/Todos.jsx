@@ -6,10 +6,11 @@ import { v4 as uuidv4 } from "uuid";
 import Image from "next/image";
 
 //components
+import Navbar from "./Navbar";
 import Todo from "./Todo";
 import Toast from "./Toast";
 
-function TodoList({ authUser }) {
+function TodoList({ authUser, user }) {
   const supabase = createClientComponentClient();
   const [fetchedData, setFetchedData] = useState(false);
   const [todos, setTodos] = useState([]);
@@ -22,7 +23,6 @@ function TodoList({ authUser }) {
   const [toast, setToast] = useState(null);
 
   async function fetchData() {
-    const supabase = createClientComponentClient();
     const { data: todos, error } = await supabase
       .from("todos")
       .select()
@@ -72,7 +72,6 @@ function TodoList({ authUser }) {
     const editedTodos = todos.map((todo) => {
       return todo.id === editedTodo.id ? editedTodo : todo;
     });
-    console.log(editedTodos);
     setTodos(editedTodos);
     setalertIsShown(true);
     setToast({
@@ -127,6 +126,7 @@ function TodoList({ authUser }) {
 
   return (
     <>
+      <Navbar user={user} search={handleSearch} searchState={searchState} />
       <h1 className="text-center text-xl font-black my-4">Add ToDo</h1>
       <form className="flex flex-col items-center gap-5 w-full p-2 mb-4">
         <input
@@ -170,21 +170,6 @@ function TodoList({ authUser }) {
 
         {todos.length > 0 && (
           <div className="w-full lg:w-1/2 lg:mx-auto flex flex-col gap-2 items-center justify-center p-2 z-40">
-            <form className="flex flex-col items-center gap-5 w-full pb-2">
-              <input
-                className="h-12 rounded-md text-center w-full self-center text-black  dark:text-white"
-                type="text"
-                placeholder="Filter your todos here..."
-                value={searchState.query}
-                onFocus={(e) => (e.target.placeholder = "")}
-                onBlur={(e) => (e.target.placeholder = "Filter your todos")}
-                onChange={(e) => {
-                  {
-                    handleSearch(e);
-                  }
-                }}
-              ></input>
-            </form>
             {searchState.query === ""
               ? todos.map((todo) => {
                   return (

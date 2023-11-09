@@ -10,7 +10,7 @@ import ThemeSwitcher from "@/app/components/theme/ThemeSwitcher";
 
 //icons
 
-function Navbar({ user }) {
+function Navbar({ user, search, searchState }) {
   const avatar = user.avatar_url;
   const [showMenu, SetShowMenu] = useState(false);
 
@@ -43,11 +43,23 @@ function Navbar({ user }) {
   };
 
   return (
-    <nav className="w-full bg-indigo-100 dark:bg-gray-950 shadow-sm">
-      <div className="w-full mx-auto lg:w-[1366px] h-[70px] flex justify-between items-center self-center">
-        <h1 className="text-2xl text-black dark:text-slate-400 font-black">
-          Todo&apos;s
-        </h1>
+    <nav className="fixed top-0 right-0 w-10/12 bg-white dark:bg-gray-950 shadow-sm">
+      <div className="w-full mx-auto lg:full h-[70px] flex justify-between items-center self-center px-4">
+        <form className="flex justify-center items-center gap-2 bg-teal-300">
+          <input
+            className="h-12 text-start w-96 self-center text-black  dark:text-white border-b-2 border-black focus:outline-none"
+            type="text"
+            placeholder="Filter your todos here..."
+            value={searchState.query}
+            onFocus={(e) => (e.target.placeholder = "")}
+            onBlur={(e) => (e.target.placeholder = "Filter your todos")}
+            onChange={(e) => {
+              {
+                search(e);
+              }
+            }}
+          ></input>
+        </form>
         <div className="relative flex gap-2">
           {showMenu && (
             <div
