@@ -20,6 +20,7 @@ function TodoList({ authUser, user }) {
     list: [null],
   });
   const [task, setTask] = useState("");
+  const [dueDate, setDueDate] = useState("");
   const [toast, setToast] = useState(null);
 
   async function fetchData() {
@@ -113,7 +114,7 @@ function TodoList({ authUser, user }) {
 
   useEffect(() => {
     fetchData();
-  });
+  }, []);
 
   useEffect(() => {
     setTimeout(() => {
@@ -127,34 +128,49 @@ function TodoList({ authUser, user }) {
   return (
     <>
       <Navbar user={user} search={handleSearch} searchState={searchState} />
-      <div className="flex mt-[70px] w-5/6 mx-auto p-1">
+      <div className="flex h-[calc(100vh-2rem)] justify-center items-center w-5/6 mx-auto p-1">
         <div className="flex flex-col justify-center w-1/2">
-          <h1 className="text-start text-xl font-black my-4">Add Todo</h1>
-          <form className="flex flex-col items-start gap-5 w-full mb-4">
-            <input
-              className="h-12 rounded-md text-start w-full lg:w-96 self-start border-2 border-indigo-500 indent-1 text-black dark:text-white"
-              type="text"
-              name="task"
-              placeholder="Enter new task here..."
-              onFocus={(e) => (e.target.placeholder = "")}
-              onBlur={(e) => (e.target.placeholder = "Enter new task here...")}
-              value={task}
-              onChange={(e) => {
-                setTask(e.target.value);
-              }}
-            ></input>
-            <button
-              onClick={handleAddTodo}
-              className="bg-indigo-400 dark:bg-slate-900 hover:bg-indigo-300 hover:dark:bg-slate-700 text-white rounded-lg p-4"
-            >
-              ADD
-            </button>
-          </form>
+          <div className="flex flex-col w-[400px] bg-gray-200 p-2 rounded-lg shadow-lg">
+            <h1 className="text-start text-xl font-black my-4">
+              Create a Todo
+            </h1>
+            <form className="flex flex-col w-auto items-start gap-5 mb-4">
+              <input
+                className="h-12 rounded-md text-start lg:w-96 self-start border-2 border-indigo-500 indent-1 text-black dark:text-white"
+                type="text"
+                name="task"
+                placeholder="Enter new task here..."
+                onFocus={(e) => (e.target.placeholder = "")}
+                onBlur={(e) =>
+                  (e.target.placeholder = "Enter new task here...")
+                }
+                value={task}
+                onChange={(e) => {
+                  setTask(e.target.value);
+                }}
+              ></input>
+              <input
+                className="h-12 rounded-md text-start lg:w-96 self-start border-2 border-indigo-500 indent-1 text-black dark:text-white"
+                type="date"
+                name="date"
+                placeholder="Select a due date..."
+                onFocus={(e) => (e.target.placeholder = "")}
+                onBlur={(e) => (e.target.placeholder = "Select a due date...")}
+                value={dueDate}
+                onChange={(e) => {
+                  setDueDate(e.target.value);
+                }}
+              ></input>
+              <button
+                onClick={handleAddTodo}
+                className="bg-indigo-400 dark:bg-slate-900 hover:bg-indigo-300 hover:dark:bg-slate-700 text-white rounded-lg p-4"
+              >
+                ADD
+              </button>
+            </form>
+          </div>
         </div>
-        <div className="relative flex  flex-col w-1/2 justify-center min-h-[600px] text-center rounded-lg bg-white dark:bg-slate-800">
-          <h1 className="text-center text-2xl font-black my-4">
-            Your Todo&apos;s
-          </h1>
+        <div className="relative flex flex-col w-1/2 justify-center min-h-[600px] text-center rounded-lg bg-white dark:bg-slate-800">
           <Suspense fallback={<p>Loading todos...</p>}>
             {!fetchedData && <p>Loading todos...</p>}{" "}
           </Suspense>
@@ -170,9 +186,11 @@ function TodoList({ authUser, user }) {
               />
             </div>
           )}
-
           {todos.length > 0 && (
             <div className="w-full lg:mx-auto flex flex-col gap-2 items-center justify-center z-40">
+              <h1 className="text-center text-2xl font-black my-4">
+                Your Todo&apos;s
+              </h1>
               {searchState.query === ""
                 ? todos.map((todo) => {
                     return (

@@ -24,7 +24,7 @@ function TodoLists() {
 
   useEffect(() => {
     fetchLists();
-  });
+  }, []);
 
   return (
     <div>
