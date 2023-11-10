@@ -49,6 +49,7 @@ function Todo({ todo, onEdit, onDelete }) {
         user_id: todo.user_id,
         id: todo.id,
         task: updatedTask,
+        due_date: todo.due_date,
         is_complete: todo.is_complete,
         inserted_at: todo.inserted_at,
       };
@@ -63,7 +64,7 @@ function Todo({ todo, onEdit, onDelete }) {
       {editMode ? (
         <form>
           <input
-            className="h-12 border-b-2 w-auto lg:w-[550px] border-gray-200 text-black bg-indigo-500 dark:bg-slate-900 dark:text-white focus:outline-none indent-2 focus:border-indigo-900 dark:focus:border-slate-400 text-base lg:text-xl "
+            className="h-12 border-b-2 w-auto lg:w-[480px] border-gray-200 text-black bg-indigo-500 dark:bg-slate-900 dark:text-white focus:outline-none indent-2 focus:border-indigo-900 dark:focus:border-slate-400 text-base lg:text-xl "
             type="text"
             value={updatedTask}
             onFocus={(e) => (e.target.placeholder = updatedTask)}
@@ -82,7 +83,10 @@ function Todo({ todo, onEdit, onDelete }) {
           </button>
         </form>
       ) : (
-        <p className="text-xs lg:text-xl indent-2">{todo.task}</p>
+        <div className="flex text-start flex-col">
+          <p className="text-xs lg:text-xl indent-2">{todo.task}</p>{" "}
+          <p className="text-xs lg:text-xl indent-2">Due: {todo.due_date}</p>
+        </div>
       )}
       <div className="flex gap-5 lg:ml-auto justify-between">
         {!editMode ? (

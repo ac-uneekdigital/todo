@@ -43,6 +43,7 @@ function TodoList({ authUser, user }) {
       id: id,
       user_id: authUser.id,
       task: task,
+      due_date: dueDate,
       is_complete: false,
       inserted_at: new Date().toISOString(),
     });
@@ -52,6 +53,7 @@ function TodoList({ authUser, user }) {
           user_id: authUser.id,
           id: id,
           task: task,
+          due_date: dueDate,
           is_complete: false,
           inserted_at: new Date().toISOString(),
         },
@@ -59,6 +61,7 @@ function TodoList({ authUser, user }) {
       ];
       setTodos(newtodos);
       setTask("");
+      setDueDate("");
       setalertIsShown(true);
       setToast({
         type: "success",
