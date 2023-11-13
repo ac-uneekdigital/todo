@@ -173,9 +173,9 @@ function TodoList({ authUser, user }) {
             </form>
           </div>
         </div>
-        <div className="relative flex flex-col w-1/2 justify-center text-center rounded-lg bg-white dark:bg-slate-800">
+        <div className="relative flex flex-col w-1/2 h-auto justify-center text-center rounded-lg bg-white dark:bg-slate-800">
           {/*Overscroll Container*/}
-          <div className="h-[645px] overflow-y-auto overscroll-contain">
+          <div className="h-auto max-h-[645px] overflow-y-auto overscroll-contain">
             <Suspense fallback={<p>Loading todos...</p>}>
               {!fetchedData && <p>Loading todos...</p>}
             </Suspense>
