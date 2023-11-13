@@ -84,8 +84,8 @@ function Todo({ todo, onEdit, onDelete }) {
         </form>
       ) : (
         <div className="flex text-start flex-col">
-          <p className="text-xs lg:text-xl indent-2">{todo.task}</p>{" "}
-          <p className="text-xs lg:text-xl indent-2">Due: {todo.due_date}</p>
+          <p className="text-xs lg:text-xl indent-2">{todo.task}</p>
+          <p className="text-xs lg:text-xl indent-2">Due:{todo.due_date}</p>
         </div>
       )}
       <div className="flex gap-5 lg:ml-auto justify-between">

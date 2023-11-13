@@ -131,7 +131,7 @@ function TodoList({ authUser, user }) {
   return (
     <>
       <Navbar user={user} search={handleSearch} searchState={searchState} />
-      <div className="flex h-[calc(100vh-2rem)] justify-center items-center w-5/6 mx-auto p-1">
+      <div className="flex h-[calc(100vh-70px)] justify-center items-center w-5/6 mx-auto p-1">
         <div className="flex flex-col justify-center w-1/2">
           <div className="flex flex-col w-[400px] bg-gray-200 p-2 rounded-lg shadow-lg">
             <h1 className="text-start text-xl font-black my-4">
@@ -173,54 +173,57 @@ function TodoList({ authUser, user }) {
             </form>
           </div>
         </div>
-        <div className="relative flex flex-col w-1/2 justify-center min-h-[600px] text-center rounded-lg bg-white dark:bg-slate-800">
-          <Suspense fallback={<p>Loading todos...</p>}>
-            {!fetchedData && <p>Loading todos...</p>}{" "}
-          </Suspense>
-          {fetchedData && todos.length === 0 && (
-            <div className="flex flex-col justify-center items-center">
-              <p>Looks like you&apos;ve got nothing to do...</p>
-              <Image
-                className="pt-8"
-                src={"/happy.svg"}
-                height={350}
-                width={350}
-                alt="completed todos image"
-              />
-            </div>
-          )}
-          {todos.length > 0 && (
-            <div className="w-full lg:mx-auto flex flex-col gap-2 items-center justify-center z-40">
-              <h1 className="text-center text-2xl font-black my-4">
-                Your Todo&apos;s
-              </h1>
-              {searchState.query === ""
-                ? todos.map((todo) => {
-                    return (
-                      <Todo
-                        key={todo.id}
-                        todo={todo}
-                        todos={todos}
-                        onEdit={handleEdit}
-                        onDelete={deleteTodo}
-                        onError={handleErrors}
-                      />
-                    );
-                  })
-                : searchState.list.map((todo) => {
-                    return (
-                      <Todo
-                        key={todo.id}
-                        todo={todo}
-                        todos={todos}
-                        onEdit={handleEdit}
-                        onDelete={deleteTodo}
-                        onError={handleErrors}
-                      />
-                    );
-                  })}
-            </div>
-          )}
+        <div className="relative flex flex-col w-1/2 justify-center text-center rounded-lg bg-white dark:bg-slate-800">
+          {/*Overscroll Container*/}
+          <div className="h-[645px] overflow-y-auto overscroll-contain">
+            <Suspense fallback={<p>Loading todos...</p>}>
+              {!fetchedData && <p>Loading todos...</p>}
+            </Suspense>
+            {fetchedData && todos.length === 0 && (
+              <div className="flex flex-col justify-center items-center">
+                <p>Looks like you&apos;ve got nothing to do...</p>
+                <Image
+                  className="pt-8"
+                  src={"/happy.svg"}
+                  height={350}
+                  width={350}
+                  alt="completed todos image"
+                />
+              </div>
+            )}
+            {todos.length > 0 && (
+              <div className="w-full h-screen lg:mx-auto flex flex-col gap-2 items-center justify-center z-40 py-2">
+                <h1 className="text-center text-2xl font-black my-4">
+                  Your Todo&apos;s
+                </h1>
+                {searchState.query === ""
+                  ? todos.map((todo) => {
+                      return (
+                        <Todo
+                          key={todo.id}
+                          todo={todo}
+                          todos={todos}
+                          onEdit={handleEdit}
+                          onDelete={deleteTodo}
+                          onError={handleErrors}
+                        />
+                      );
+                    })
+                  : searchState.list.map((todo) => {
+                      return (
+                        <Todo
+                          key={todo.id}
+                          todo={todo}
+                          todos={todos}
+                          onEdit={handleEdit}
+                          onDelete={deleteTodo}
+                          onError={handleErrors}
+                        />
+                      );
+                    })}
+              </div>
+            )}
+          </div>
           {searchState.list.length === 0 && searchState.query && (
             <p>Oops, we cant find anything like that.</p>
           )}

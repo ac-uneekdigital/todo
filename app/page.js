@@ -19,7 +19,7 @@ export default async function Home() {
         <main className="flex h-screen">
           <div className="w-2/12 h-full border-r-2 bg-indigo-500"><TodoLists /></div>
           <div className="w-full lg:w-10/12 bg-white dark:bg-slate-800 p-2">
-            <div className="h-auto overflow-y-auto overflow-hidden">
+            <div>
               <Todos authUser={authUser} user={user} />
             </div>
           </div>
