@@ -29,7 +29,7 @@ function TodoLists() {
   return (
     <div>
       <div className="h-[70px] p-3">
-        <h1 className="text-4xl text-primary font-black">Todo&apos;s</h1>
+        <h1 className="text-4xl text-black font-black">Todo&apos;s</h1>
       </div>
       <div className="flex justify-center px-2">
         <Suspense fallback={<p>Loading todos...</p>}>
@@ -45,7 +45,7 @@ function TodoLists() {
             return (
               <div
                 key={list.id}
-                className="flex items-center h-12 w-full p-2 text-grey cursor-pointer bg-white hover:bg-gray-200 rounded-lg"
+                className="flex items-center h-12 w-full p-2 text-grey hover:text-white cursor-pointer bg-white hover:bg-gray-900 rounded-lg"
               >
                 <p>{list.list_name}</p>
               </div>

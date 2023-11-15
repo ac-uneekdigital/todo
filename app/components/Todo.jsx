@@ -60,11 +60,11 @@ function Todo({ todo, onEdit, onDelete }) {
   };
 
   return (
-    <div className="relative flex flex-col lg:flex-row gap-4 items-center rounded-md text-grey bg-white dark:bg-slate-900 h-auto lg:h-20 w-full p-1 border-2 border-primary/25 shadow-md">
+    <div className="relative flex flex-col lg:flex-row gap-4 items-center rounded-md text-grey bg-white dark:bg-slate-900 h-auto lg:h-20 w-full p-1 border-2 border-gray-900 shadow-md">
       {editMode ? (
         <form>
           <input
-            className="h-12 border-b-2 w-auto lg:w-[400px] border-gray-200 text-black dark:bg-slate-900 dark:text-white focus:outline-none indent-2 focus:border-indigo-900 dark:focus:border-slate-400 text-base lg:text-xl "
+            className="h-12 border-b-2 w-auto lg:w-[400px] border-gray-200 text-black dark:bg-slate-900 dark:text-white focus:outline-none indent-2 focus:border-gray-900 dark:focus:border-slate-400 text-base lg:text-xl "
             type="text"
             value={updatedTask}
             onFocus={(e) => (e.target.placeholder = updatedTask)}
@@ -91,7 +91,7 @@ function Todo({ todo, onEdit, onDelete }) {
       <div className="flex items-center gap-5 lg:ml-auto justify-between">
         {!editMode ? (
           <TbEdit
-            className="text-grey hover:text-indigo-300 cursor-pointer ml-auto"
+            className="text-gray-900 hover:text-gray-500 cursor-pointer ml-auto"
             size={36}
             onClick={(e) => {
               e.preventDefault();
@@ -101,7 +101,7 @@ function Todo({ todo, onEdit, onDelete }) {
           />
         ) : (
           <TbEditOff
-            className="text-grey hover:text-indigo-300 cursor-pointer ml-auto"
+            className="text-gray-900 hover:text-gray-500 cursor-pointer ml-auto"
             size={36}
             onClick={(e) => {
               e.preventDefault();
@@ -112,15 +112,15 @@ function Todo({ todo, onEdit, onDelete }) {
         )}
         <div className="flex justify-center items-center">
           <input
-            className="appearance-none rounded-full peer cursor-pointer bg-indigo-500 hover:bg-indigo-300 checked:bg-teal-300 h-8 w-8"
+            className="appearance-none rounded-full peer cursor-pointer bg-gray-200 hover:bg-lime-200 checked:bg-lime-400 h-8 w-8"
             onChange={(e) => toggle()}
             type="checkbox"
             checked={isCompleted ? true : false}
           />
-          <FaCheck className="absolute hidden peer-checked:block" />
+          <FaCheck className="absolute stroke-white fill-white hidden peer-checked:block" />
         </div>
         <FaTrash
-          className="text-red-400 hover:text-red-500 cursor-pointer mr-2"
+          className="text-rose-400 hover:text-rose-500 cursor-pointer mr-2"
           size={28}
           onClick={(e) => {
             e.preventDefault();

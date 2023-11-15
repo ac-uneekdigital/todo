@@ -164,12 +164,14 @@ function TodoList({ authUser, user }) {
                   setDueDate(e.target.value);
                 }}
               ></input>
-              <button
-                onClick={handleAddTodo}
-                className="bg-indigo-400 dark:bg-slate-900 hover:bg-indigo-300 hover:dark:bg-slate-700 text-white rounded-lg p-4"
-              >
-                ADD
-              </button>
+              <div className="flex w-full justify-center">
+                <button
+                  onClick={handleAddTodo}
+                  className="bg-gray-900 dark:bg-slate-900 hover:bg-gray-700 hover:dark:bg-slate-700 text-white rounded-lg py-2 w-full"
+                >
+                  ADD
+                </button>
+              </div>
             </form>
           </div>
         </div>
