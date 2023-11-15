@@ -60,11 +60,11 @@ function Todo({ todo, onEdit, onDelete }) {
   };
 
   return (
-    <div className="relative flex flex-col lg:flex-row gap-4 items-center rounded-md text-white bg-indigo-400 dark:bg-slate-900 h-auto lg:h-20 w-full p-1">
+    <div className="relative flex flex-col lg:flex-row gap-4 items-center rounded-md text-grey bg-white dark:bg-slate-900 h-auto lg:h-20 w-full p-1 border-2 border-primary/25 shadow-md">
       {editMode ? (
         <form>
           <input
-            className="h-12 border-b-2 w-auto lg:w-[480px] border-gray-200 text-black bg-indigo-500 dark:bg-slate-900 dark:text-white focus:outline-none indent-2 focus:border-indigo-900 dark:focus:border-slate-400 text-base lg:text-xl "
+            className="h-12 border-b-2 w-auto lg:w-[400px] border-gray-200 text-black dark:bg-slate-900 dark:text-white focus:outline-none indent-2 focus:border-indigo-900 dark:focus:border-slate-400 text-base lg:text-xl "
             type="text"
             value={updatedTask}
             onFocus={(e) => (e.target.placeholder = updatedTask)}
@@ -88,10 +88,10 @@ function Todo({ todo, onEdit, onDelete }) {
           <p className="text-xs lg:text-xl indent-2">Due:{todo.due_date}</p>
         </div>
       )}
-      <div className="flex gap-5 lg:ml-auto justify-between">
+      <div className="flex items-center gap-5 lg:ml-auto justify-between">
         {!editMode ? (
           <TbEdit
-            className="text-white hover:text-indigo-300 cursor-pointer ml-auto"
+            className="text-grey hover:text-indigo-300 cursor-pointer ml-auto"
             size={36}
             onClick={(e) => {
               e.preventDefault();
@@ -101,7 +101,7 @@ function Todo({ todo, onEdit, onDelete }) {
           />
         ) : (
           <TbEditOff
-            className="text-white hover:text-indigo-300 cursor-pointer ml-auto"
+            className="text-grey hover:text-indigo-300 cursor-pointer ml-auto"
             size={36}
             onClick={(e) => {
               e.preventDefault();

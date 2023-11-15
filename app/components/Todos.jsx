@@ -133,13 +133,13 @@ function TodoList({ authUser, user }) {
       <Navbar user={user} search={handleSearch} searchState={searchState} />
       <div className="flex h-[calc(100vh-70px)] justify-center items-center w-5/6 m-auto">
         <div className="flex flex-col justify-center w-1/2">
-          <div className="flex flex-col w-fit bg-gray-200 p-2 rounded-lg shadow-lg">
+          <div className="flex flex-col w-fit bg-gray-100 p-2 rounded-lg shadow-lg">
             <h1 className="text-start text-xl font-black my-4">
               Create a Todo
             </h1>
             <form className="flex flex-col w-auto items-start gap-5 mb-4">
               <input
-                className="h-12 rounded-md text-start lg:w-96 self-start border-2 border-indigo-500 indent-1 text-black dark:text-white"
+                className="h-12 rounded-md text-start lg:w-96 self-start  indent-1 text-black dark:text-white"
                 type="text"
                 name="task"
                 placeholder="Enter new task here..."
@@ -153,7 +153,7 @@ function TodoList({ authUser, user }) {
                 }}
               ></input>
               <input
-                className="h-12 rounded-md text-start lg:w-96 self-start border-2 border-indigo-500 indent-1 text-black dark:text-white"
+                className="h-12 rounded-md text-start lg:w-96 self-start indent-1 text-black dark:text-white"
                 type="date"
                 name="date"
                 placeholder="Select a due date..."
@@ -175,12 +175,12 @@ function TodoList({ authUser, user }) {
         </div>
         <div className="relative flex flex-col w-1/2 h-auto justify-center text-center rounded-lg p-1 bg-white dark:bg-slate-800">
           {/*Overscroll Container*/}
-          <div className="flex h-auto max-h-[645px] overflow-y-auto overscroll-contain">
+          <div className="flex h-auto max-h-[645px] bg-gray-100 p-2 rounded-lg shadow-lg overflow-y-auto overscroll-contain">
             <Suspense fallback={<p>Loading todos...</p>}>
               {!fetchedData && <p>Loading todos...</p>}
             </Suspense>
             {fetchedData && todos.length === 0 && (
-              <div className="flex flex-col justify-center items-center">
+              <div className="flex mx-auto flex-col justify-center items-center">
                 <p>Looks like you&apos;ve got nothing to do...</p>
                 <Image
                   className="pt-8"

@@ -45,7 +45,7 @@ function TodoLists() {
             return (
               <div
                 key={list.id}
-                className="flex items-center h-12 w-full p-2 text-white cursor-pointer hover:bg-indigo-700 rounded-lg"
+                className="flex items-center h-12 w-full p-2 text-white cursor-pointer hover:bg-primary rounded-lg"
               >
                 <p>{list.list_name}</p>
               </div>
