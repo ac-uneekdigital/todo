@@ -50,7 +50,11 @@ function TodoLists() {
             return (
               <div
                 key={list.id}
-                className="flex items-center h-12 w-full p-2 text-grey {currentList === list.id && (bg-red-400)} hover:text-white cursor-pointer bg-white hover:bg-gray-900 rounded-lg"
+                className={`${
+                  currentList == list.id
+                    ? "flex items-center h-12 w-full p-2 text-white {currentList === list.id && (bg-red-400)} hover:text-white cursor-pointer bg-gray-900 hover:bg-gray-700 rounded-lg"
+                    : "flex items-center h-12 w-full p-2 text-grey {currentList === list.id && (bg-red-400)} hover:text-white cursor-pointer bg-white hover:bg-gray-900 rounded-lg"
+                } `}
                 onClick={() => selectedList(list)}
               >
                 <p>{list.list_name}</p>
