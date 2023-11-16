@@ -7,6 +7,7 @@ function TodoLists() {
   const supabase = createClientComponentClient();
   const [todoLists, setTodoLists] = useState([]);
   const [fetchedLists, setfetchedLists] = useState(false);
+  const [currentList, setCurrentList] = useState("");
 
   async function fetchLists() {
     const { data: lists, error } = await supabase
@@ -20,7 +21,11 @@ function TodoLists() {
     }
   }
 
-  console.log(todoLists);
+  function selectedList(list) {
+    setCurrentList(list.id);
+  }
+
+  console.log(currentList);
 
   useEffect(() => {
     fetchLists();
@@ -45,7 +50,8 @@ function TodoLists() {
             return (
               <div
                 key={list.id}
-                className="flex items-center h-12 w-full p-2 text-grey hover:text-white cursor-pointer bg-white hover:bg-gray-900 rounded-lg"
+                className="flex items-center h-12 w-full p-2 text-grey {currentList === list.id && (bg-red-400)} hover:text-white cursor-pointer bg-white hover:bg-gray-900 rounded-lg"
+                onClick={() => selectedList(list)}
               >
                 <p>{list.list_name}</p>
               </div>

@@ -1,7 +1,6 @@
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-
 //Components
 import Todos from "./components/Todos";
 import TodoLists from "./components/TodoLists";

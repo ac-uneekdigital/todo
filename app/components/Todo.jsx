@@ -134,3 +134,26 @@ function Todo({ todo, onEdit, onDelete }) {
 }
 
 export default Todo;
+
+{
+  /* <form>
+<input
+  className="h-12 border-b-2 w-auto lg:w-[400px] border-gray-200 text-black dark:bg-slate-900 dark:text-white focus:outline-none indent-2 focus:border-gray-900 dark:focus:border-slate-400 text-base lg:text-xl "
+  type="text"
+  value={updatedTask}
+  onFocus={(e) => (e.target.placeholder = updatedTask)}
+  onBlur={(e) => (e.target.placeholder = updatedTask)}
+  onChange={(e) => setUpdatedTask(e.target.value)}
+></input>
+<button
+  className="hidden"
+  onClick={(e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    editTodo(todo);
+  }}
+>
+  Update
+</button>
+</form> */
+}

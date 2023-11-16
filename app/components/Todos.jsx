@@ -229,10 +229,10 @@ function TodoList({ authUser, user }) {
           {searchState.list.length === 0 && searchState.query && (
             <p>Oops, we cant find anything like that.</p>
           )}
-          <div className="h-12 w-full lg:w-1/6 absolute right-3 bottom-5 z-10">
-            {toast && alertIsShown && <Toast toast={toast} />}
-          </div>
         </div>
+      </div>
+      <div className="h-12 w-full lg:w-auto absolute right-3 bottom-5 z-10">
+        {toast && alertIsShown && <Toast toast={toast} />}
       </div>
     </>
   );
