@@ -15,6 +15,7 @@ function TodoLists() {
       .select()
       .order("id", { ascending: false });
     setTodoLists(lists);
+    setCurrentList(lists[0].id);
     setfetchedLists(true);
     if (error) {
       console.log(error);
