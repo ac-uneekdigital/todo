@@ -2,12 +2,12 @@
 
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useEffect, useState, Suspense } from "react";
+import { v4 as uuidv4 } from "uuid";
 
-function TodoLists({ authUser }) {
+function TodoLists({ authUser, onSelect, currentList }) {
   const supabase = createClientComponentClient();
   const [todoLists, setTodoLists] = useState([]);
   const [fetchedLists, setfetchedLists] = useState(false);
-  const [currentList, setCurrentList] = useState("");
   const [listName, setListName] = useState("");
   const [showForm, setShowForm] = useState(false);
 
@@ -17,7 +17,6 @@ function TodoLists({ authUser }) {
       .select()
       .order("id", { ascending: false });
     setTodoLists(lists);
-    setCurrentList(lists[0].id);
     setfetchedLists(true);
     if (error) {
       console.log(error);
@@ -28,7 +27,7 @@ function TodoLists({ authUser }) {
     setShowForm(!showForm);
   }
 
-  async function addNewList(authUser) {
+  async function addNewList(e) {
     e.preventDefault();
     e.stopPropagation();
     const id = uuidv4();
@@ -52,16 +51,11 @@ function TodoLists({ authUser }) {
       ];
       setTodoLists(newList);
       setListName("");
+      handleFormState();
     } else {
       console.error("Error when adding your todo", error);
     }
   }
-
-  function selectedList(list) {
-    setCurrentList(list.id);
-  }
-
-  console.log(currentList);
 
   useEffect(() => {
     fetchLists();
@@ -82,11 +76,14 @@ function TodoLists({ authUser }) {
         {showForm && (
           <form>
             <input
+              className="h-12 w-full bg-gray-200 border-b-2 border-gray-900"
               type="text"
               onChange={(e) => setListName(e.target.value)}
               value={listName}
             ></input>
-            <button onClick={addNewList}>Add List</button>
+            <button className="hidden" onClick={addNewList}>
+              Add List
+            </button>
           </form>
         )}
         <Suspense fallback={<p>Loading todos...</p>}>
@@ -104,10 +101,10 @@ function TodoLists({ authUser }) {
                 key={list.id}
                 className={`${
                   currentList == list.id
-                    ? "flex items-center h-12 w-full p-2 text-white {currentList === list.id && (bg-red-400)} hover:text-white cursor-pointer bg-gray-900 hover:bg-gray-700 rounded-lg"
-                    : "flex items-center h-12 w-full p-2 text-grey {currentList === list.id && (bg-red-400)} hover:text-white cursor-pointer bg-white hover:bg-gray-900 rounded-lg"
+                    ? "flex items-center h-12 w-full p-2 text-white hover:text-white cursor-pointer bg-gray-900 hover:bg-gray-700 rounded-lg my-1"
+                    : "flex items-center h-12 w-full p-2 text-grey hover:text-white cursor-pointer bg-white hover:bg-gray-900 rounded-lg my-1"
                 } `}
-                onClick={() => selectedList(list)}
+                onClick={onSelect(list)}
               >
                 <p>{list.list_name}</p>
               </div>
