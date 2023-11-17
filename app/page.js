@@ -16,7 +16,7 @@ export default async function Home() {
     return (
       <>
         <main className="flex h-screen">
-          <div className="w-2/12 h-full border-0 bg-gray-100"><TodoLists /></div>
+          <div className="w-2/12 h-full border-0 bg-gray-100"><TodoLists authUser={authUser} user={user} /></div>
           <div className="w-full lg:w-10/12 bg-white dark:bg-slate-800 p-2">
             <div>
               <Todos authUser={authUser} user={user} />

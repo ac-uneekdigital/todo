@@ -3,11 +3,13 @@
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useEffect, useState, Suspense } from "react";
 
-function TodoLists() {
+function TodoLists({ authUser }) {
   const supabase = createClientComponentClient();
   const [todoLists, setTodoLists] = useState([]);
   const [fetchedLists, setfetchedLists] = useState(false);
   const [currentList, setCurrentList] = useState("");
+  const [listName, setListName] = useState("");
+  const [showForm, setShowForm] = useState(false);
 
   async function fetchLists() {
     const { data: lists, error } = await supabase
@@ -19,6 +21,39 @@ function TodoLists() {
     setfetchedLists(true);
     if (error) {
       console.log(error);
+    }
+  }
+
+  function handleFormState() {
+    setShowForm(!showForm);
+  }
+
+  async function addNewList(authUser) {
+    e.preventDefault();
+    e.stopPropagation();
+    const id = uuidv4();
+    const { error } = await supabase.from("lists").insert({
+      id: id,
+      user_id: authUser.id,
+      list_name: listName,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    });
+    if (!error) {
+      const newList = [
+        {
+          user_id: authUser.id,
+          id: id,
+          list_name: listName,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        },
+        ...todoLists,
+      ];
+      setTodoLists(newList);
+      setListName("");
+    } else {
+      console.error("Error when adding your todo", error);
     }
   }
 
@@ -37,7 +72,23 @@ function TodoLists() {
       <div className="h-[70px] p-3">
         <h1 className="text-4xl text-black font-black">Todo&apos;s</h1>
       </div>
-      <div className="flex justify-center px-2">
+      <div className="flex flex-col items-center px-2">
+        <button
+          onClick={handleFormState}
+          className="h-12 w-full rounded-lg text-white bg-gray-900 hover:bg-gray-700 p-1 my-2"
+        >
+          Create New List
+        </button>
+        {showForm && (
+          <form>
+            <input
+              type="text"
+              onChange={(e) => setListName(e.target.value)}
+              value={listName}
+            ></input>
+            <button onClick={addNewList}>Add List</button>
+          </form>
+        )}
         <Suspense fallback={<p>Loading todos...</p>}>
           {!fetchedLists && <p>Loading todo lists...</p>}{" "}
         </Suspense>
