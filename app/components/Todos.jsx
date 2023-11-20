@@ -135,6 +135,10 @@ function Todos({ authUser, user }) {
     setCurrentList(list.id);
   }
 
+  function getLastList(lastList) {
+    setCurrentList(lastList.id);
+  }
+
   return (
     <>
       <div className="flex">
@@ -144,6 +148,7 @@ function Todos({ authUser, user }) {
             user={user}
             onSelect={selectedList}
             currentList={currentList}
+            lastList={getLastList}
           />
         </div>
         <div className="w-full lg:w-10/12 bg-white dark:bg-slate-800 p-2">

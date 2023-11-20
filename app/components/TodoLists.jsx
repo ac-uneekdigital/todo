@@ -4,10 +4,11 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useEffect, useState, Suspense } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-function TodoLists({ authUser, onSelect, currentList }) {
+function TodoLists({ authUser, onSelect, currentList, lastList }) {
   const supabase = createClientComponentClient();
   const [todoLists, setTodoLists] = useState([]);
   const [fetchedLists, setfetchedLists] = useState(false);
+  const [latestList, setLatestList] = useState([]);
   const [listName, setListName] = useState("");
   const [showForm, setShowForm] = useState(false);
 
@@ -15,13 +16,18 @@ function TodoLists({ authUser, onSelect, currentList }) {
     const { data: lists, error } = await supabase
       .from("lists")
       .select()
-      .order("id", { ascending: false });
+      .order("created_at", { ascending: false });
     setTodoLists(lists);
+    setLatestList(lists[0]);
     setfetchedLists(true);
     if (error) {
       console.log(error);
     }
   }
+
+  useEffect(() => {
+    lastList(latestList);
+  }, [latestList]);
 
   function handleFormState() {
     setShowForm(!showForm);
@@ -50,6 +56,7 @@ function TodoLists({ authUser, onSelect, currentList }) {
         ...todoLists,
       ];
       setTodoLists(newList);
+
       setListName("");
       handleFormState();
     } else {
