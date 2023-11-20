@@ -44,6 +44,7 @@ function Todos({ authUser, user }) {
     const { error } = await supabase.from("todos").insert({
       id: id,
       user_id: authUser.id,
+      list_id: currentList,
       task: task,
       due_date: dueDate,
       is_complete: false,
@@ -54,6 +55,7 @@ function Todos({ authUser, user }) {
         {
           user_id: authUser.id,
           id: id,
+          list_id: currentList,
           task: task,
           due_date: dueDate,
           is_complete: false,
@@ -138,6 +140,8 @@ function Todos({ authUser, user }) {
   function getLastList(lastList) {
     setCurrentList(lastList.id);
   }
+
+  console.log(currentList);
 
   return (
     <>
@@ -224,16 +228,19 @@ function Todos({ authUser, user }) {
                     </h1>
                     {searchState.query === ""
                       ? todos.map((todo) => {
-                          return (
-                            <Todo
-                              key={todo.id}
-                              todo={todo}
-                              todos={todos}
-                              onEdit={handleEdit}
-                              onDelete={deleteTodo}
-                              onError={handleErrors}
-                            />
-                          );
+                          if (todo.list_id === currentList) {
+                            return (
+                              <Todo
+                                key={todo.id}
+                                todo={todo}
+                                todos={todos}
+                                onEdit={handleEdit}
+                                onDelete={deleteTodo}
+                                onError={handleErrors}
+                              />
+                            );
+                          } else {
+                          }
                         })
                       : searchState.list.map((todo) => {
                           return (
