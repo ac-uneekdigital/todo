@@ -104,7 +104,7 @@ function TodoLists({ authUser, onSelect, currentList }) {
                     ? "flex items-center h-12 w-full p-2 text-white hover:text-white cursor-pointer bg-gray-900 hover:bg-gray-700 rounded-lg my-1"
                     : "flex items-center h-12 w-full p-2 text-grey hover:text-white cursor-pointer bg-white hover:bg-gray-900 rounded-lg my-1"
                 } `}
-                onClick={onSelect(list)}
+                onClick={() => onSelect(list)}
               >
                 <p>{list.list_name}</p>
               </div>
